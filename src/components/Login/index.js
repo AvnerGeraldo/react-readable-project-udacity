@@ -91,9 +91,11 @@ class Login extends Component {
         this.setState({ chkRememberMe: !e.target.checked ? '0' :'1' })
     }
 
+    submitForm = () => this.props.loginUser(this.state.txtAuthor, this.state.chkRememberMe === '1')
+
     render() {
-        const { classes, loginUser, login } = this.props
-        const { txtAuthor, chkRememberMe, errorMsg } = this.state
+        const { classes, login } = this.props
+        const { txtAuthor, chkRememberMe } = this.state
         const { isLogged, msgError } = login
 
         if (isLogged) {
@@ -109,7 +111,10 @@ class Login extends Component {
                                 <PersonIcon fontSize='large'/>
                             </Avatar>
                             <Typography variant="headline">Sign in</Typography>
-                            <form className={classes.form}>
+                            <form className={classes.form} onSubmit={(e) => {
+                                e.preventDefault()
+                                this.submitForm()
+                            }}>
                                 <FormControl margin="normal" required fullWidth>
                                     <InputLabel htmlFor="author">Author</InputLabel>
                                     <Input name="author" value={txtAuthor} autoComplete="author" autoFocus onChange={(e) => this.handleTxtAuthor(e)}/>
@@ -124,7 +129,7 @@ class Login extends Component {
                                     variant="raised"
                                     color="primary"
                                     className={classes.submit}
-                                    onClick={() => loginUser(txtAuthor, chkRememberMe === '1')}
+                                    onClick={() => this.submitForm()}
                                 >
                                     Sign in
                                 </Button>
