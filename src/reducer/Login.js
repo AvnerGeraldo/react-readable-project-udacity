@@ -19,7 +19,12 @@ export default (state = initialState, { type, payload }) => {
             }
             break;
         case LOGIN_PROCCESS_ASYNC:
+            
             if (payload.author) {
+                //SETING A LOCAL STORAGE WHEN 'REMEMBER ME' IS TRUE
+                (payload.rememberMe) && localStorage.setItem('author', payload.author)
+
+                //RETURNING LOGIN PROCESS
                 return {
                     ...state,
                     isLogged: true,
@@ -32,7 +37,7 @@ export default (state = initialState, { type, payload }) => {
                 ...state,
                 isLogged: false,
                 authorLogged: '',
-                msmError: payload.error || ''
+                msgError: payload.error || 'Não foi possível logar autor'
             }
         case LOGOUT_ASYNC:
             //DELETING LOCAL STORAGE
