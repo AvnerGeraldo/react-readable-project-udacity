@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
 //Components
-import App from './components/App'
+import Routing from './components/Routing'
 
 //Store
 import store from './config'
@@ -18,7 +18,7 @@ import './index.css';
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <App />
+            <Routing />
         </BrowserRouter>
     </Provider>, 
     document.querySelector('#root')
