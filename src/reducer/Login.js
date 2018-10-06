@@ -1,5 +1,5 @@
 //Action
-import { LOGIN_PROCCESS_ASYNC, LOGIN_FAIL_ASYNC, LOGOUT_ASYNC } from '../actions/Login'
+import { VERIFY_IF_ALREDY_LOGGED_ASYNC, LOGIN_PROCCESS_ASYNC, LOGIN_FAIL_ASYNC, LOGOUT_ASYNC } from '../actions/Login'
 
 //Initial State
 const initialState = {
@@ -9,21 +9,22 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
     switch(type) {
-        case LOGIN_PROCCESS_ASYNC:
-            //If author is not filled
-            if (!payload.author) {
+        case VERIFY_IF_ALREDY_LOGGED_ASYNC:
+            if (localStorage.getItem('author')) {
                 return {
                     ...state,
-                    isLogged: false,
-                    authorLogged: ''
+                    isLogged: true,
+                    authorLogged: localStorage.getItem('author')
                 }
             }
-
-            //Return the new State
-            return {
-                ...state,
-                isLogged: true,
-                authorLogged: payload.author
+            break;
+        case LOGIN_PROCCESS_ASYNC:
+            if (payload.author) {
+                return {
+                    ...state,
+                    isLogged: true,
+                    authorLogged: payload.author
+                }
             }
             break;
         case LOGIN_FAIL_ASYNC:
@@ -35,13 +36,12 @@ export default (state = initialState, { type, payload }) => {
             }
             break;
         case LOGOUT_ASYNC:
-            return {
-                ...state,
-                isLogged: false,
-                authorLogged: ''
-            }
+            //DELETING LOCAL STORAGE
+            (localStorage.getItem('author')) && localStorage.clear()
             break;
         default:
             return state
     }
+
+    return initialState
 }
