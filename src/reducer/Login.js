@@ -1,5 +1,5 @@
 //Action
-import { LOGIN_PROCCESS, LOGIN_FAIL, LOGOUT } from '../actions/Login'
+import { LOGIN_PROCCESS_ASYNC, LOGIN_FAIL_ASYNC, LOGOUT_ASYNC } from '../actions/Login'
 
 //Initial State
 const initialState = {
@@ -9,7 +9,7 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
     switch(type) {
-        case LOGIN_PROCCESS:
+        case LOGIN_PROCCESS_ASYNC:
             //If author is not filled
             if (!payload.author) {
                 return {
@@ -26,7 +26,7 @@ export default (state = initialState, { type, payload }) => {
                 authorLogged: payload.author
             }
             break;
-        case LOGIN_FAIL:
+        case LOGIN_FAIL_ASYNC:
             return {
                 ...state,
                 isLogged: false,
@@ -34,7 +34,7 @@ export default (state = initialState, { type, payload }) => {
                 msmError: payload.error || ''
             }
             break;
-        case LOGOUT:
+        case LOGOUT_ASYNC:
             return {
                 ...state,
                 isLogged: false,

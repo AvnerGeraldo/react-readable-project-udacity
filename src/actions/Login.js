@@ -1,3 +1,3 @@
-export const LOGIN_PROCCESS = 'LOGIN_PROCCESS'
-export const LOGIN_FAIL = 'LOGIN_FAIL'
-export const LOGOUT = 'LOGOUT'
+export const LOGIN_PROCCESS_ASYNC = 'LOGIN_PROCCESS_ASYNC'
+export const LOGIN_FAIL_ASYNC = 'LOGIN_FAIL_ASYNC'
+export const LOGOUT_ASYNC = 'LOGOUT_ASYNC'
