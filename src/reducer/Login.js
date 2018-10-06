@@ -18,12 +18,27 @@ export default (state = initialState, { type, payload }) => {
                     authorLogged: ''
                 }
             }
-            
+
             //Return the new State
             return {
                 ...state,
                 isLogged: true,
                 authorLogged: payload.author
+            }
+            break;
+        case LOGIN_FAIL:
+            return {
+                ...state,
+                isLogged: false,
+                authorLogged: '',
+                msmError: payload.error || ''
+            }
+            break;
+        case LOGOUT:
+            return {
+                ...state,
+                isLogged: false,
+                authorLogged: ''
             }
             break;
         default:
