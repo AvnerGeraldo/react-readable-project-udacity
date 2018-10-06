@@ -74,19 +74,31 @@ const styles = theme => ({
 
 class Login extends Component {
     state = {
-        errorMsg: ''
+        txtAuthor: '',
+        chkRememberMe: '0'
     }
 
     componentWillMount() {
-        new Promise((resolve) => {
-            this.props.verifyIsLogged()
-        })
-        .catch(error => this.setState({ errorMsg: error }))
+        new Promise((resolve) =>this.props.verifyIsLogged())
+        .catch(error => this.props.errorLoginFail(error))
+    }
+
+    handleTxtAuthor = e => {
+        this.setState({ txtAuthor: e.target.value })
+    }
+
+    handleChkRememberMe = e => {
+        this.setState({ chkRememberMe: !e.target.checked ? '0' :'1' })
     }
 
     render() {
-        const { classes } = this.props
-        const { errorMsg } = this.state
+        const { classes, loginUser, login } = this.props
+        const { txtAuthor, chkRememberMe, errorMsg } = this.state
+        const { isLogged, msgError } = login
+
+        if (isLogged) {
+            return ( <Redirect to="/blog" /> )
+        } 
 
         return (
             <React.Fragment>
@@ -100,23 +112,24 @@ class Login extends Component {
                             <form className={classes.form}>
                                 <FormControl margin="normal" required fullWidth>
                                     <InputLabel htmlFor="author">Author</InputLabel>
-                                    <Input name="author" autoComplete="author" autoFocus />
+                                    <Input name="author" value={txtAuthor} autoComplete="author" autoFocus onChange={(e) => this.handleTxtAuthor(e)}/>
                                 </FormControl>
                                 <FormControlLabel
-                                    control={<Checkbox value="remember" color="primary" />}
+                                    control={<Checkbox value={chkRememberMe} color="primary" onClick={(e) => this.handleChkRememberMe(e)} />}
                                     label="Remember me"
                                 />
                                 <Button
-                                    type="submit"
+                                    type="button"
                                     fullWidth
                                     variant="raised"
                                     color="primary"
                                     className={classes.submit}
+                                    onClick={() => loginUser(txtAuthor, chkRememberMe === '1')}
                                 >
                                     Sign in
                                 </Button>
                             </form>
-                            {errorMsg && <Paper elevation={1} className={classes.paperError}>{errorMsg}</Paper>}
+                            {msgError && <Paper elevation={1} className={classes.paperError}>{msgError}</Paper>}
                         </Paper>
                     </div>
                 </CssBaseline>
@@ -130,7 +143,9 @@ const mapStateToProps = ({ login }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    verifyIsLogged: _ => dispatch({ type: 'IS_LOGGED' })
+    verifyIsLogged: _ => dispatch({ type: 'IS_LOGGED' }),
+    loginUser: (author, rememberMe) => dispatch({ type: 'LOGIN_USER', payload: { author, rememberMe }}),
+    errorLoginFail: error => dispatch({ type: 'LOGIN_FAIL', payload: { error }})
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login))
