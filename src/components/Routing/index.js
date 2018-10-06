@@ -1,23 +1,23 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 
 //Component
+import PrivateRoute from '../Helpers/PrivateRoute'
 import Login from '../Login'
 import Blog from '../Blog'
 
-const App = () => (
-    <div>
+export default (props) => (
+    <Switch>
         <Route 
             path='/'
             exact
             component={Login}
         />
-        <Route
+        <PrivateRoute
             path='/blog'
             exact
             component={Blog}
         />
-    </div>
+        <Redirect from='*' to='/' />
+    </Switch>
 )
-
-export default App
