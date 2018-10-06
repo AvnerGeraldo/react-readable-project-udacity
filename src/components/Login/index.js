@@ -138,6 +138,19 @@ class Login extends Component {
     }
 }
 
+const { string, func, object, bool, shape } = PropTypes
+
+Login.propTypes = {
+    classes: object,
+    loginUser: func.isRequired,
+    login: shape({
+        isLogged: bool.isRequired,
+        msgError: string
+    }),
+    verifyIsLogged: func.isRequired,
+    errorLoginFail: func.isRequired,
+}
+
 const mapStateToProps = ({ login }) => ({
     login
 })
