@@ -34,7 +34,6 @@ export default (state = initialState, { type, payload }) => {
                 authorLogged: '',
                 msmError: payload.error || ''
             }
-            break;
         case LOGOUT_ASYNC:
             //DELETING LOCAL STORAGE
             (localStorage.getItem('author')) && localStorage.clear()
