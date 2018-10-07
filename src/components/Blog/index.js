@@ -19,11 +19,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 //Components
 import Header from '../Header'
+import BoxPosts from './BoxPosts'
+import BoxSideBar from './BoxSideBar'
 
 //Style
 const styles = themes => ({
     root: {
       flexGrow: 1,
+      marginTop: themes.spacing.unit * 7
     },
     grow: {
       flexGrow: 1,
@@ -38,6 +41,17 @@ class Blog extends Component {
             <React.Fragment>
                 <CssBaseline>
                     <Header />
+                    Teste
+                    <Grid 
+                        container={true}
+                        spacing={8}
+                        justify="center"
+                        direction="row"
+                        alignItems="flex-start"
+                        className={classes.root}>
+                        <BoxPosts />
+                        <BoxSideBar />
+                    </Grid>
                 </CssBaseline>
             </React.Fragment>
         )
