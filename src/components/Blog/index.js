@@ -19,7 +19,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 //Components
 import Header from '../Header'
-import BoxPosts from './BoxPosts'
+import BoxTimeLine from './BoxTimeLine'
 import BoxSideBar from './BoxSideBar'
 
 //Style
@@ -49,7 +49,7 @@ class Blog extends Component {
                         direction="row"
                         alignItems="flex-start"
                         className={classes.root}>                        
-                        <BoxPosts />
+                        <BoxTimeLine />
                         <BoxSideBar />
                     </Grid>
                 </CssBaseline>
