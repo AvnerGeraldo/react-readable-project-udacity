@@ -62,8 +62,8 @@ const BoxPost = (props) => {
                     <IconButton title="Open Post">
                         <IconOpenPost />
                     </IconButton>
-                    <IconButton title="Open Post">
-                        <IconComments />
+                    <IconButton title="Comments" disableRipple={true}>
+                        <IconComments/>
                     </IconButton>
                     <Typography variant='body2'>{numComments}</Typography>             
                     <IconButton title="Vote Down">
