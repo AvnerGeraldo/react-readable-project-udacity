@@ -48,7 +48,7 @@ class Blog extends Component {
                         justify="center"
                         direction="row"
                         alignItems="flex-start"
-                        className={classes.root}>
+                        className={classes.root}>                        
                         <BoxPosts />
                         <BoxSideBar />
                     </Grid>

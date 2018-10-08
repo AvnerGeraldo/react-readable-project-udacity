@@ -8,6 +8,9 @@ import Paper from '@material-ui/core/Paper'
 //Core
 import { withStyles } from '@material-ui/core/styles';
 
+//Components
+import BoxFilter from './BoxFilter'
+
 //Styles
 const styles = theme => ({
     root: {
@@ -35,9 +38,10 @@ const BoxPosts = (props) => {
     const { classes } = props
 
     return (
-        <Grid item sm={7} xs={12}>
+        <Grid item sm={7} xs={12}>            
             <Paper 
                 className={`${classes.boxPosts}`}>
+                <BoxFilter />
                 Teste
             </Paper>
         </Grid>
