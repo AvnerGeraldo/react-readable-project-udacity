@@ -61,7 +61,7 @@ const styles = theme => ({
 const BoxFilter = (props) => {
     const { classes } = props
     const sortArrowSelected = classes.sortArrows.concat(' ').concat(classes.sortArrowSelected)
-    console.log(moment().format('DD/MM/YYYY'))
+
     return (
         <Grid item sm={12} xs={12}>        
             <Paper elevation={1} square={true} className={`${classes.control} ${classes.boxFilter}`}>
