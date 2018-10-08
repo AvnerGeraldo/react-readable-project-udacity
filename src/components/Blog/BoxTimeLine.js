@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 //Components
 import BoxFilter from './BoxFilter'
+import BoxPost from './BoxPost'
 
 //Styles
 const styles = theme => ({
@@ -42,7 +43,7 @@ const BoxPosts = (props) => {
             <Paper 
                 className={`${classes.boxPosts}`}>
                 <BoxFilter />
-                Teste
+                <BoxPost />
             </Paper>
         </Grid>
     )
