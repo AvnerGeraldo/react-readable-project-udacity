@@ -7,9 +7,13 @@ import Paper from '@material-ui/core/Paper'
 
 //Items
 import Button from '@material-ui/core/Button'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import Typography from '@material-ui/core/Typography'
 
 //Core
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles'
 
 //Styles
 const styles = theme => ({
@@ -45,9 +49,19 @@ const BoxSideBar = (props) => {
     return (
         <Grid item sm={4} xs={12}>
             <Button variant="contained" color="primary" className={classes.buttonCreatePost}>create a post</Button>            
-            <Paper 
-                className={`${classes.control} ${classes.boxCategory}`}>
-                Teste
+            <Paper square={true} className={`${classes.control} ${classes.boxCategory}`}>
+                <Typography align="center" variant="title" color="default">Categories</Typography>
+                <List component="nav">
+                    <ListItem button>
+                        <ListItemText primary="Category 1" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemText primary="Category 2" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemText primary="Category 3" />
+                    </ListItem>
+                </List>
             </Paper>
         </Grid>
     )
