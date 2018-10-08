@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
+//Font
+import 'typeface-roboto'
+
 //Moment
 import moment from 'moment/min/moment-with-locales'
 import Moment from 'react-moment'
