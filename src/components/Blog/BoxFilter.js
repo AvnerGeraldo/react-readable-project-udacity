@@ -48,31 +48,29 @@ const styles = theme => ({
   
 
 class BoxFilter extends Component {
-    state = {
-        valueFilter: 'voteScore',
-        sortFilter: 'up'
+
+    componentWillMount() {
+        this.props.getFilters()
     }
 
     handleChangeFilter = (e) => {
         const valueFilter = e.target.value
         const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
 
-        this.setState({ valueFilter })
-
-        this.props.filteringData(this.state.sortFilter, filterColumn)
+        this.props.changeFilter(valueFilter, this.props.sortFilter)
+        this.props.filteringData(this.props.sortFilter, filterColumn)
     }
 
     handleChangeSort = (sortValue) => {
-        this.setState({ sortFilter: sortValue })        
+        this.props.changeFilter(this.props.valueFilter, sortValue)      
 
-        const filterColumn = this.state.valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
+        const filterColumn = this.props.valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
         this.props.filteringData(sortValue, filterColumn)
     }
     
 
     render() {
-        const { classes } = this.props
-        const { valueFilter, sortFilter } = this.state
+        const { classes, valueFilter, sortFilter } = this.props
         const sortArrowSelected = [classes.sortArrows, classes.sortArrowSelected].join(' ')
 
         return (
@@ -98,12 +96,19 @@ class BoxFilter extends Component {
     }
 }
 
-const { string, func } = PropTypes
+const { string, object, func } = PropTypes
 
 BoxFilter.propTypes = {
-    classes: string,
-    filteringData: func.isRequired
+    classes: object,
+    filteringData: func.isRequired,
+    valueFilter: string.isRequired,
+    sortFilter: string.isRequired,
 }
+
+const mapStateToProps = state => ({
+    valueFilter: state.filters.valueFilter,
+    sortFilter: state.filters.sortFilter,
+})
 
 const mapDispatchToProps = dispatch => ({
     filteringData: (sortFilter, filterColumn) => dispatch({ 
@@ -112,7 +117,15 @@ const mapDispatchToProps = dispatch => ({
             sortFilter,
             filterColumn
         }
-    })
+    }),
+    changeFilter: (valueFilter, sortFilter) => dispatch({
+        type: 'CHANGE_FILTERS',
+        payload: {
+            valueFilter, 
+            sortFilter
+        }
+    }),
+    getFilters: _ => dispatch({ type: 'GET_FILTERS' })
 })
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(BoxFilter))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BoxFilter))
