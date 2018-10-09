@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import 'typeface-roboto'
 
 //Moment
-import moment from 'moment/min/moment-with-locales'
+import moment from 'moment'
 import Moment from 'react-moment'
 
 //Components
