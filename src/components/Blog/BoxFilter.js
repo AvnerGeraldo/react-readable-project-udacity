@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import moment from 'moment'
 import PropTypes from 'prop-types'
 
 //Material UI
@@ -13,10 +12,8 @@ import IconArrowUp from '@material-ui/icons/ArrowUpward'
 import IconArrowDown from '@material-ui/icons/ArrowDownward'
 
 //Form
-import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
-import TextField from '@material-ui/core/TextField'
 
 //Core
 import { withStyles } from '@material-ui/core/styles'
@@ -26,20 +23,12 @@ const styles = theme => ({
     root: {
       flexGrow: 1,
     },
-    paper: {
-      padding: theme.spacing.unit * 2,
-      height: '100%',
-      color: theme.palette.text.secondary,
-    },
     control: {
       padding: theme.spacing.unit,
     },
     formControl: {
       marginLeft: theme.spacing.unit,
       minWidth: 120,      
-    },
-    selectEmpty: {
-      marginTop: theme.spacing.unit * 2,
     },
     boxFilter: {
       minHeight: '2em',
@@ -55,38 +44,35 @@ const styles = theme => ({
         color: '#283593',
         fontWeight: 'bolder',
     },
-    boxDate: {
-        marginLeft: theme.spacing.unit,
-        minWidth: '150px',
-    }
   });
   
 
 class BoxFilter extends Component {
     state = {
-        showFilterData: false,
         valueFilter: 'voteScore',
         sortFilter: 'up'
     }
 
     handleChangeFilter = (e) => {
         const valueFilter = e.target.value
-        const showFilterData = valueFilter === 'dateOfCreation'
+        const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
 
-        this.setState({ 
-            valueFilter,
-            showFilterData
-        })
+        this.setState({ valueFilter })
+
+        this.props.filteringData(this.state.sortFilter, filterColumn)
     }
 
     handleChangeSort = (sortValue) => {
-        this.setState({ sortFilter: sortValue })
+        this.setState({ sortFilter: sortValue })        
+
+        const filterColumn = this.state.valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
+        this.props.filteringData(sortValue, filterColumn)
     }
     
 
     render() {
         const { classes } = this.props
-        const { showFilterData, valueFilter, sortFilter } = this.state
+        const { valueFilter, sortFilter } = this.state
         const sortArrowSelected = [classes.sortArrows, classes.sortArrowSelected].join(' ')
 
         return (
@@ -104,18 +90,7 @@ class BoxFilter extends Component {
                             className={classes.formControl}>
                             <MenuItem value="voteScore">Vote Score</MenuItem>
                             <MenuItem value="dateOfCreation">Date Of Creation</MenuItem>
-                        </Select>
-                        { (showFilterData) && ( <span style={{ marginLeft: '8px' }}>Date</span> )}
-                        { (showFilterData) && (
-                            <TextField
-                                    id="date"
-                                    type="date"
-                                    defaultValue={moment().format('YYYY-MM-DD')}
-                                    className={classes.formControl}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }} />
-                        )}                       
+                        </Select>     
                     </form>
                 </Paper>
             </Grid>
@@ -123,4 +98,21 @@ class BoxFilter extends Component {
     }
 }
 
-export default withStyles(styles)(BoxFilter)
+const { string, func } = PropTypes
+
+BoxFilter.propTypes = {
+    classes: string,
+    filteringData: func.isRequired
+}
+
+const mapDispatchToProps = dispatch => ({
+    filteringData: (sortFilter, filterColumn) => dispatch({ 
+        type: 'GET_ALL_POSTS', 
+        payload: {
+            sortFilter,
+            filterColumn
+        }
+    })
+})
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(BoxFilter))
