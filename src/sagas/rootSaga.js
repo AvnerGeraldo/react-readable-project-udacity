@@ -7,6 +7,9 @@ import watchLogin from './Login/login_saga'
 import watchLoginFail from './Login/error_logging_saga'
 import watchLogout from './Login/logout_saga'
 
+//Posts
+import watchPostsGetAll from './Posts/get_all_data_saga'
+
 //Export data
 export default function* () {
     yield all([
@@ -14,5 +17,6 @@ export default function* () {
         watchLogin(),
         watchLoginFail(),
         watchLogout(),
+        watchPostsGetAll(),
     ])
 }
