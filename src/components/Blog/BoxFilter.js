@@ -17,6 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 
 //Core
 import { withStyles } from '@material-ui/core/styles'
+import { withRouter } from 'react-router-dom';
 
 //Styles
 const styles = theme => ({
@@ -56,16 +57,18 @@ class BoxFilter extends Component {
     handleChangeFilter = (e) => {
         const valueFilter = e.target.value
         const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
+        const categoryUrl = this.props.match.params.category ? this.props.match.params.category : ''
 
         this.props.changeFilter(valueFilter, this.props.sortFilter)
-        this.props.filteringData(this.props.sortFilter, filterColumn)
+        this.props.filteringData(this.props.sortFilter, filterColumn, categoryUrl)
     }
 
     handleChangeSort = (sortValue) => {
-        this.props.changeFilter(this.props.valueFilter, sortValue)      
-
         const filterColumn = this.props.valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
-        this.props.filteringData(sortValue, filterColumn)
+        const categoryUrl = this.props.match.params.category ? this.props.match.params.category : ''
+
+        this.props.changeFilter(this.props.valueFilter, sortValue)
+        this.props.filteringData(sortValue, filterColumn, categoryUrl)
     }
     
 
@@ -111,13 +114,26 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    filteringData: (sortFilter, filterColumn) => dispatch({ 
-        type: 'GET_ALL_POSTS', 
-        payload: {
-            sortFilter,
-            filterColumn
+    filteringData: (sortFilter, filterColumn, category = '') =>  {        
+        let actionToSend = 'GET_ALL_POSTS'
+        let paramsToSend = {
+            sortFilter, filterColumn
         }
-    }),
+
+        if (category.length > 0) {
+            actionToSend = 'GET_POSTS_BY_CATEGORY'
+            paramsToSend = {
+                sortFilter, 
+                filterColumn,
+                category
+            }
+        }
+
+        return dispatch({ 
+            type: actionToSend, 
+            payload: { ...paramsToSend }        
+        })
+    },
     changeFilter: (valueFilter, sortFilter) => dispatch({
         type: 'CHANGE_FILTERS',
         payload: {
@@ -128,4 +144,4 @@ const mapDispatchToProps = dispatch => ({
     getFilters: _ => dispatch({ type: 'GET_FILTERS' })
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BoxFilter))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(BoxFilter)))
