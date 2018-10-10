@@ -9,6 +9,7 @@ import watchLogout from './Login/logout_saga'
 
 //Posts
 import watchPostsGetAll from './Posts/get_all_data_saga'
+import watchVoteChange from './Posts/change_vote_score_saga'
 
 //Filters
 import watchFiltersChange from './Filter/change_filters_saga'
@@ -22,6 +23,7 @@ export default function* () {
         watchLoginFail(),
         watchLogout(),
         watchPostsGetAll(),
+        watchVoteChange(),
         watchFiltersChange(),
         watchFiltersGet(),
     ])
