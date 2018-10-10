@@ -42,7 +42,6 @@ class Blog extends Component {
             <React.Fragment>
                 <CssBaseline>
                     <Header />
-                    Teste
                     <Grid 
                         container={true}
                         spacing={8}
