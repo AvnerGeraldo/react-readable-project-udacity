@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 //Material UI
 //Structure
@@ -14,20 +15,6 @@ import BoxPost from './BoxPost'
 
 //Styles
 const styles = theme => ({
-    root: {
-      flexGrow: 1,
-    },
-    demo: {
-      height: 240,
-    },
-    paper: {
-      padding: theme.spacing.unit * 2,
-      height: '100%',
-      color: theme.palette.text.secondary,
-    },
-    control: {
-      padding: theme.spacing.unit * 2,
-    },
     boxPosts: {
         minHeight: '20em',
         height: 'auto',
@@ -36,17 +23,32 @@ const styles = theme => ({
   
 
 const BoxPosts = (props) => {
-    const { classes } = props
-
+    const { classes, dataPosts } = props
     return (
         <Grid item sm={7} xs={12}>            
-            <Paper 
-                className={`${classes.boxPosts}`}>
+            <Paper className={`${classes.boxPosts}`}>
                 <BoxFilter />
-                <BoxPost />
+                { dataPosts.data && 
+                    dataPosts.data.map(v => {                          
+                        return (!v.deleted && <BoxPost key={v.id}
+                                id={v.id}
+                                title={v.title} 
+                                textToShow={v.body}
+                                author={v.author}
+                                numComments={v.commentCount}
+                                numVotes={v.voteScore}
+                                categoryPost={v.category}
+                                timestampPost={v.timestamp} />
+                        )
+                    })
+                }
             </Paper>
         </Grid>
     )
 }
 
-export default withStyles(styles)(BoxPosts)
+const mapStateToProps = state => ({
+    dataPosts: state.posts.dataPost
+})
+
+export default connect(mapStateToProps)(withStyles(styles)(BoxPosts))
