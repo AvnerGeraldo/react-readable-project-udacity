@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 //Material UI
 //Structure
@@ -44,11 +45,15 @@ const styles = theme => ({
   
 
 const BoxSideBar = (props) => {
-    const { classes } = props
+    const { classes, openModal } = props
 
     return (
         <Grid item sm={4} xs={12}>
-            <Button variant="contained" color="primary" className={classes.buttonCreatePost}>create a post</Button>            
+            <Button 
+                variant="contained" 
+                color="primary" 
+                onClick={() => openModal()}
+                className={classes.buttonCreatePost}>create a post</Button>            
             <Paper square={true} className={`${classes.control} ${classes.boxCategory}`}>
                 <Typography align="center" variant="title" color="default">Categories</Typography>
                 <List component="nav">
@@ -67,4 +72,8 @@ const BoxSideBar = (props) => {
     )
 }
 
-export default withStyles(styles)(BoxSideBar)
+const mapDispatchToProps = dispatch => ({
+    openModal: _=> dispatch({ type: 'OPEN_MODAL_CREATE_POST' })
+})
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(BoxSideBar))
