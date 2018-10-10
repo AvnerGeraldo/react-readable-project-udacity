@@ -19,7 +19,7 @@ import ModalCreatePost from './ModalCreatePost'
 const styles = themes => ({
     root: {
       flexGrow: 1,
-      marginTop: themes.spacing.unit * 7
+      marginTop: themes.spacing.unit * 9
     }
 })
 
