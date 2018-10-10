@@ -1,17 +1,7 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-
 //Material UI
 //Structure
 import Grid from '@material-ui/core/Grid'
-
-//Toolbar
-import IconButton from '@material-ui/core/IconButton'
-
-//Icons
-
-//Fonts
-import Typography from '@material-ui/core/Typography';
 
 //Core
 import { withStyles } from '@material-ui/core/styles';
@@ -21,16 +11,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Header from '../Header'
 import BoxTimeLine from './BoxTimeLine'
 import BoxSideBar from './BoxSideBar'
+import ModalCreatePost from './CreatePost'
 
 //Style
 const styles = themes => ({
     root: {
       flexGrow: 1,
       marginTop: themes.spacing.unit * 7
-    },
-    grow: {
-      flexGrow: 1,
-    },
+    }
 })
 
 class Blog extends Component {
@@ -51,6 +39,7 @@ class Blog extends Component {
                         className={classes.root}>                        
                         <BoxTimeLine />
                         <BoxSideBar />
+                        <ModalCreatePost />
                     </Grid>
                 </CssBaseline>
             </React.Fragment>
@@ -58,15 +47,4 @@ class Blog extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    
-
-    return {
-        
-    }
-}
-
-const mapDispatchToProps = dispatch => ({
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Blog))
+export default withStyles(styles)(Blog)
