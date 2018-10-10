@@ -1,4 +1,4 @@
-import { GET_ALL_POSTS_ASYNC, FAIL_GET_ALL_POSTS_ASYNC } from '../actions/Posts'
+import { GET_ALL_POSTS_ASYNC, GET_POSTS_BY_CATEGORY_ASYNC, FAIL_GET_POSTS_ASYNC } from '../actions/Posts'
 
 const initialState = {
     dataPost: []
@@ -13,7 +13,14 @@ export default (state = initialState, { type, payload }) => {
                     data: payload.data
                 }
             }
-        case FAIL_GET_ALL_POSTS_ASYNC: {
+        case GET_POSTS_BY_CATEGORY_ASYNC:
+            return {
+                ...state,
+                dataPost: {
+                    data: payload.data
+                }
+            }
+        case FAIL_GET_POSTS_ASYNC: {
             return {
                 ...state,
                 dataPost: {
