@@ -1,4 +1,4 @@
-import { FAIL_GET_ALL_POSTS_ASYNC } from '../../actions/Posts'
+import { FAIL_GET_POSTS_ASYNC } from '../../actions/Posts'
 import { takeLatest, put, call } from 'redux-saga/effects'
 import { token, urlServer } from '../../helpers/helpFetch'
 
@@ -9,7 +9,7 @@ function* updateVoteScore({ payload }) {
         yield sendRequest(id, voteChange)
         yield requestUpdateData(sortFilter, filterColumn)
     } catch(error) {
-        yield put({ type: FAIL_GET_ALL_POSTS_ASYNC, payload: { error }})
+        yield put({ type: FAIL_GET_POSTS_ASYNC, payload: { error }})
     }
 }
 

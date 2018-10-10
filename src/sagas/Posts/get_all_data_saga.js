@@ -1,4 +1,4 @@
-import { GET_ALL_POSTS_ASYNC, FAIL_GET_ALL_POSTS_ASYNC } from '../../actions/Posts'
+import { GET_ALL_POSTS_ASYNC, FAIL_GET_POSTS_ASYNC } from '../../actions/Posts'
 import { token, urlServer } from '../../helpers/helpFetch'
 import { takeLatest, put, call } from 'redux-saga/effects'
 import filteringData from '../../helpers/filteringData'
@@ -28,7 +28,7 @@ function* getDataByFiltering({ payload }) {
     
     if (response.error) {
         yield put({ 
-            type: FAIL_GET_ALL_POSTS_ASYNC, 
+            type: FAIL_GET_POSTS_ASYNC, 
             payload: {
                 data: [],
                 error: response.error
