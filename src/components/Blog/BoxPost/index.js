@@ -40,7 +40,22 @@ const styles = theme => ({
   
 
 const BoxPost = (props) => {
-    const { classes, id, title, textToShow, author, numComments, numVotes, categoryPost, timestampPost, valueFilter, sortFilter, changeVote, authorLogged } = props
+    const { 
+        classes, 
+        id, 
+        title, 
+        textToShow, 
+        author, 
+        numComments, 
+        numVotes, 
+        categoryPost, 
+        timestampPost, 
+        valueFilter, 
+        sortFilter, 
+        changeVote, 
+        authorLogged,
+        deletePost
+    } = props
     const textNumComments =  `${numComments}${(parseInt(numComments) > 1000 ? 'k' : '')} comments`
     const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
 
@@ -80,7 +95,7 @@ const BoxPost = (props) => {
                         <IconVoteUp />
                     </IconButton>
                     {author.toLowerCase() === authorLogged.toLowerCase() && (
-                        <IconButton title="Delete Post">
+                        <IconButton title="Delete Post" onClick={() => window.confirm('Do you want to delete post ?') && deletePost(id, sortFilter, filterColumn)}>
                             <IconDelete />
                         </IconButton>
                     )}                    
@@ -107,6 +122,14 @@ const mapDispatchToProps = dispatch => ({
         payload: {
             id, 
             voteChange, 
+            sortFilter, 
+            filterColumn
+        }
+    }),
+    deletePost: (id, sortFilter, filterColumn) => dispatch({ 
+        type: 'DELETE_POST', 
+        payload: {
+            id,
             sortFilter, 
             filterColumn
         }
