@@ -26,8 +26,8 @@ const styles = themes => ({
 class Blog extends Component {
 
     componentWillMount() {
-        const { getAllCategories } = this.props
-        getAllCategories()
+        const { dataCategory } = this.props
+        dataCategory.length === 0 && this.props.getAllCategories()        
     }
     componentDidMount() {
         const { valueFilter, sortFilter, getAllPosts } = this.props
@@ -66,6 +66,7 @@ const mapStateToProps = state => {
     return {
         valueFilter, 
         sortFilter,
+        dataCategory: Object.keys(state.categories).length !== 0 ? state.categories.categories : [],
     }
 } 
 

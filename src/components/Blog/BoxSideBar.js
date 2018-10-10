@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 //Material UI
 //Structure
@@ -49,6 +50,7 @@ const styles = theme => ({
 
 const BoxSideBar = (props) => {
     const { classes, openModal, dataCategory } = props
+    const categoryUrl = props.match.params.category ? props.match.params.category : ''
 
     return (
         <Grid item sm={4} xs={12}>
@@ -60,11 +62,15 @@ const BoxSideBar = (props) => {
             <Paper square={true} className={`${classes.control} ${classes.boxCategory}`}>
                 <Typography align="center" variant="title" color="default">Categories</Typography>
                 <List component="nav">
-                    <ListItem button component="a" href="/blog/posts">
-                        <ListItemText primary="Todas" />
+                    <ListItem button component="a" href="/blog/posts" selected={categoryUrl === ''}>
+                        <ListItemText primary="Todas"/>
                     </ListItem>
                     {dataCategory && dataCategory.map(v => (
-                        <ListItem key={v.name} button component="a" href={`/blog/posts/category/${v.name}`}>
+                        <ListItem key={v.name} 
+                            button 
+                            component="a" 
+                            href={`/blog/posts/category/${v.name}`}
+                            selected={categoryUrl === v.name}>
                             <ListItemText primary={capitalize(v.name)} />
                         </ListItem>
                     ) )}
@@ -85,4 +91,4 @@ const mapDispatchToProps = dispatch => ({
     openModal: _=> dispatch({ type: 'OPEN_MODAL_CREATE_POST' })
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BoxSideBar))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(BoxSideBar)))

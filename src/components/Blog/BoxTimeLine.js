@@ -23,13 +23,13 @@ const styles = theme => ({
   
 
 const BoxPosts = (props) => {
-    const { classes, dataPosts } = props
+    const { classes, dataPost } = props
     return (
         <Grid item sm={7} xs={12}>            
             <Paper className={`${classes.boxPosts}`}>
                 <BoxFilter />
-                { dataPosts.data && 
-                    dataPosts.data.map(v => {                          
+                { dataPost.data && 
+                    dataPost.data.map(v => {                          
                         return (!v.deleted && <BoxPost key={v.id}
                                 id={v.id}
                                 title={v.title} 
@@ -47,8 +47,12 @@ const BoxPosts = (props) => {
     )
 }
 
-const mapStateToProps = state => ({
-    dataPosts: state.posts.dataPost
-})
+const mapStateToProps = state => {
+    const { dataPost } = state.posts
+    
+    return {
+        dataPost
+    }
+}
 
 export default connect(mapStateToProps)(withStyles(styles)(BoxPosts))
