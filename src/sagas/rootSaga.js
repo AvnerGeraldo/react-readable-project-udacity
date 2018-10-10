@@ -13,6 +13,7 @@ import watchVoteChange from './Posts/change_vote_score_saga'
 import watchPostDelete from './Posts/delete_post_saga'
 import watchPostCreate from './Posts/create_post_saga'
 import watchPostByCategory from './Posts/get_data_by_category_saga'
+import watchInitialDataEditPost from './Posts/initial_data_edit_post_saga'
 
 //Categories
 import watchCategoriesAll from './Categories/get_all_categories_saga'
@@ -36,6 +37,7 @@ export default function* () {
         watchVoteChange(),
         watchPostCreate(),
         watchPostByCategory(),
+        watchInitialDataEditPost(),
         watchOpenModalCreatePost(),
         watchCloseModalCreatePost(),
         watchFiltersChange(),
