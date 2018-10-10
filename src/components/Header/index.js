@@ -20,7 +20,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 //Helpers
-import UpperCase from '../Helpers/UpperCase'
+import capitalize from '../../helpers/capitalize'
 
 //Style
 const styles = themes => ({
@@ -61,7 +61,7 @@ class Header extends Component {
                 <Toolbar>
                     <IconAccountCircle color="primary" className={classes.iconAccount}/>
                     <Typography variant="title" color="inherit" className={classes.grow}>                                
-                        {UpperCase(author)}
+                        {capitalize(author)}
                     </Typography>                            
                     <IconButton 
                         color="secondary" 
