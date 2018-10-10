@@ -55,7 +55,9 @@ const BoxPost = (props) => {
         sortFilter, 
         changeVote, 
         authorLogged,
-        deletePost
+        deletePost,
+        changeDataEditPost,
+        openModal
     } = props
 
     const textNumComments =  `${numComments}${(parseInt(numComments) > 1000 ? 'k' : '')} comments`
@@ -66,7 +68,16 @@ const BoxPost = (props) => {
             <Card square={true}>
                 <CardHeader action={
                     author.toLowerCase() === authorLogged.toLowerCase() && (
-                        <IconButton>
+                        <IconButton onClick={() => {
+                            changeDataEditPost({
+                                id,
+                                txtTitle: title, 
+                                cboCategory: categoryPost,
+                                txtPostText: textToShow,
+                            })
+
+                            openModal()
+                        }}>
                             <IconEdit />
                         </IconButton>
                     )
@@ -135,7 +146,9 @@ const mapDispatchToProps = dispatch => ({
             sortFilter, 
             filterColumn
         }
-    })
+    }),
+    changeDataEditPost: objData => dispatch({ type: 'EDIT_POST', payload: { ...objData }}),
+    openModal: _=> dispatch({ type: 'OPEN_MODAL_CREATE_POST' }),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BoxPost))
