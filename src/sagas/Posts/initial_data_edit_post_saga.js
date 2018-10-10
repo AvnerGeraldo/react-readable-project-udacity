@@ -1,5 +1,5 @@
 import { INITIAL_DATA_EDIT_POST_ASYNC } from '../../actions/Posts'
-import { takeLatest, put } from 'redux-saga'
+import { takeLatest, put } from 'redux-saga/effects'
 
 function* getInitialData() {
     yield put({ type: INITIAL_DATA_EDIT_POST_ASYNC })
