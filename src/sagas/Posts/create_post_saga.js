@@ -5,9 +5,9 @@ import moment from 'moment'
 
 function* createPost({ payload }) {
     try {
-        const { author, title, category, postText, sortFilter, filterColumn } = payload
+        const { author, title, category, postText, sortFilter, filterColumn, id } = payload
 
-        yield sendRequest(author, title, category, postText)
+        yield sendRequest(author, title, category, postText, id)
         yield requestUpdateData(sortFilter, filterColumn)
     } catch(error) {
         yield put({ 
@@ -19,23 +19,37 @@ function* createPost({ payload }) {
     }
 }
 
-function* sendRequest(author, title, category, postText) {
-    const timestamp = parseInt(moment().format('x'))
-
-    yield call(fetch, `${urlServer}/posts`, {
-        method: 'POST',
-        headers: {
-            'Authorization': token,
-            'Content-Type': 'application/json', 
-        },
-        body: JSON.stringify({
+function* sendRequest(author, title, category, postText, id = '') {    
+    let urlToSend = `${urlServer}/posts`
+    let method = 'POST'
+    let body = {}
+    
+    if (id) {
+        urlToSend = `${urlServer}/posts/${id}`
+        method = 'PUT'
+        body = {
+            title,
+            body: postText,
+        }
+    } else {
+        const timestamp = parseInt(moment().format('x'))
+        body = {
             id: btoa(`${timestamp}${author}${category}`),
             timestamp,
             title,
             body: postText,
             author: author.toLowerCase(),
             category
-        })
+        }
+    }
+
+    yield call(fetch, urlToSend, {
+        method: method,
+        headers: {
+            'Authorization': token,
+            'Content-Type': 'application/json', 
+        },
+        body: JSON.stringify(body)
     }) 
 }
 
