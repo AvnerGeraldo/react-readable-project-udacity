@@ -99,7 +99,7 @@ class Login extends Component {
         const { isLogged, msgError } = login
 
         if (isLogged) {
-            return ( <Redirect to="/blog" /> )
+            return ( <Redirect to="/blog/posts" /> )
         } 
 
         return (
