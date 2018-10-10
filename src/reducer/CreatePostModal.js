@@ -2,7 +2,7 @@ import { OPEN_CREATE_POST_MODAL_ASYNC, CLOSE_CREATE_POST_MODAL_ASYNC, FAIL_SAVE_
 
 const initialState = {
     openModal: false,
-    savePost: {}
+    error: ''
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -21,9 +21,7 @@ export default (state = initialState, { type, payload }) => {
         case FAIL_SAVE_CREATE_POST_ASYNC: {
             return {
                 ...state,
-                savePost: {
-                    error: payload.error
-                }
+                error: payload.error                
             }
         }          
         default:
