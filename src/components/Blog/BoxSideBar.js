@@ -16,6 +16,9 @@ import Typography from '@material-ui/core/Typography'
 //Core
 import { withStyles } from '@material-ui/core/styles'
 
+//Helpers
+import capitalize from '../../helpers/capitalize'
+
 //Styles
 const styles = theme => ({
     root: {
@@ -45,7 +48,7 @@ const styles = theme => ({
   
 
 const BoxSideBar = (props) => {
-    const { classes, openModal } = props
+    const { classes, openModal, dataCategory } = props
 
     return (
         <Grid item sm={4} xs={12}>
@@ -57,23 +60,29 @@ const BoxSideBar = (props) => {
             <Paper square={true} className={`${classes.control} ${classes.boxCategory}`}>
                 <Typography align="center" variant="title" color="default">Categories</Typography>
                 <List component="nav">
-                    <ListItem button>
-                        <ListItemText primary="Category 1" />
+                    <ListItem button component="a" href="/blog/posts">
+                        <ListItemText primary="Todas" />
                     </ListItem>
-                    <ListItem button>
-                        <ListItemText primary="Category 2" />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemText primary="Category 3" />
-                    </ListItem>
+                    {dataCategory && dataCategory.map(v => (
+                        <ListItem key={v.name} button component="a" href={`/blog/posts/category/${v.name}`}>
+                            <ListItemText primary={capitalize(v.name)} />
+                        </ListItem>
+                    ) )}
                 </List>
             </Paper>
         </Grid>
     )
 }
 
+const mapStateToProps = state => {
+    const { categories } = state.categories
+    return {
+        dataCategory: categories
+    }
+}
+
 const mapDispatchToProps = dispatch => ({
     openModal: _=> dispatch({ type: 'OPEN_MODAL_CREATE_POST' })
 })
 
-export default connect(null, mapDispatchToProps)(withStyles(styles)(BoxSideBar))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BoxSideBar))

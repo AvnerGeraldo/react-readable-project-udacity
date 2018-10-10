@@ -5,6 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import PrivateRoute from '../Helpers/PrivateRoute'
 import Login from '../Login'
 import Blog from '../Blog'
+import CategoryPosts from '../Blog/CategoryPosts'
 
 export default (props) => (
     <Switch>
@@ -14,9 +15,14 @@ export default (props) => (
             component={Login}
         />
         <PrivateRoute
-            path='/blog'
+            path='/blog/posts'
             exact
             component={Blog}
+        />
+        <PrivateRoute
+            path='/blog/posts/category/:category'
+            exact
+            component={CategoryPosts}
         />
         <Redirect from='*' to='/' />
     </Switch>
