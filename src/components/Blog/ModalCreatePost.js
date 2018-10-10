@@ -61,38 +61,26 @@ function Transition(props) {
 }
 
 class ModalCreatePost extends Component {
-    state = {
-        txtTitle: '',
-        cboCategory: '',
-        txtPostText: '',
-        error: ''
-    }
 
     handleClose = () => {
-        this.setState({
-            txtTitle: '',
-            cboCategory: '',
-            txtPostText: '',
-            error: ''
-        })
-
+        this.props.getInitialData()
         this.props.closeModal()
     }
 
     handleChangeTitle = (e) => {
-        this.setState({ txtTitle: e.target.value })
+        this.props.changeDataEditPost({ txtTitle: e.target.value })
     }
 
     handleChangeCategory = (e) => {
-        this.setState({ cboCategory: e.target.value })
+        this.props.changeDataEditPost({ cboCategory: e.target.value })
     }
 
     handleChangePostText = (e) => {
-        this.setState({ txtPostText: e.target.value })
+        this.props.changeDataEditPost({ txtPostText: e.target.value })
     }
 
     submitData = () => {
-        const { txtTitle, cboCategory, txtPostText } = this.state
+        const { txtTitle, cboCategory, txtPostText } = this.props
         let errorText = ''
 
         if (txtTitle.length === 0) {
@@ -108,14 +96,14 @@ class ModalCreatePost extends Component {
         }
 
         if (errorText.length > 0) {
-            this.setState({ error: errorText })
+            this.props.changeDataEditPost({ error: errorText })
             return false
         }
 
-        const { valueFilter, sortFilter, authorLogged, savePost, errorSave } = this.props
+        const { valueFilter, sortFilter, authorLogged, savePost, errorSave, id } = this.props
         const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
         
-        savePost(authorLogged, txtTitle, cboCategory, txtPostText, sortFilter, filterColumn)
+        savePost(authorLogged, txtTitle, cboCategory, txtPostText, sortFilter, filterColumn, id)
         
         //Quando não existe erro para exibir
         if (errorSave !== undefined && errorSave.length === 0) {
@@ -124,8 +112,8 @@ class ModalCreatePost extends Component {
     }
     
     render() {
-        const { classes, openModal, errorSave, dataCategory } = this.props;
-        const showError = this.state.error.length > 0 ? this.state.error : errorSave
+        const { classes, openModal, errorSave, dataCategory, txtTitle, cboCategory, txtPostText, error } = this.props;
+        const showError = error.length > 0 ? error : errorSave
 
         return (
             <div>
@@ -162,14 +150,14 @@ class ModalCreatePost extends Component {
                             <TextField
                             label="Title"
                             className={classes.textField}
-                            value={this.state.txtTitle}
+                            value={txtTitle}
                             onChange={this.handleChangeTitle}
                             margin="normal"
                             />
                             <FormControl className={classes.formControl}>
                                 <InputLabel shrink htmlFor="category-label-placeholder">Category</InputLabel>
                                 <Select
-                                    value={this.state.cboCategory}
+                                    value={cboCategory}
                                     onChange={this.handleChangeCategory}
                                     input={<Input name="category" id="category-label-placeholder" />}
                                     displayEmpty
@@ -185,7 +173,7 @@ class ModalCreatePost extends Component {
                                 label="Post"
                                 multiline
                                 rows={15}
-                                value={this.state.txtPostText}
+                                value={txtPostText}
                                 onChange={this.handleChangePostText}
                                 className={classes.textFieldMultiLine}
                                 margin="normal"/>
@@ -203,24 +191,31 @@ ModalCreatePost.propTypes = {
 }
 
 const mapStateToProps = state => {
-    const { openModal, error } = state.createPostModal
+    const openModal = state.createPostModal.openModal
+    const errorSave = state.createPostModal.error
     const { valueFilter, sortFilter } = state.filters
     const { authorLogged } = state.login
     const { categories } = state.categories
+    const { txtTitle, cboCategory, txtPostText, error, id } = state.editPost
 
     return {
         openModal,
         valueFilter, 
         sortFilter,
         authorLogged,
-        errorSave: error,
+        errorSave,
         dataCategory: categories,
+        txtTitle, 
+        cboCategory, 
+        txtPostText, 
+        error,
+        id
     }
 }
 
 const mapDispatchToProps = dispatch => ({
     closeModal: _=> dispatch({ type: 'CLOSE_MODAL_CREATE_POST' }),
-    savePost: (author, title, category, postText, sortFilter, filterColumn) => dispatch({ 
+    savePost: (author, title, category, postText, sortFilter, filterColumn, id = '') => dispatch({ 
         type: 'CREATE_POST', 
         payload: {
             author,
@@ -228,9 +223,12 @@ const mapDispatchToProps = dispatch => ({
             category, 
             postText,
             sortFilter, 
-            filterColumn
+            filterColumn,
+            id
         }
-    })
+    }),
+    getInitialData: _ => dispatch({ type: 'INITIAL_DATA_EDIT_POST' }),
+    changeDataEditPost: objData => dispatch({ type: 'EDIT_POST', payload: { ...objData }})
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ModalCreatePost));
