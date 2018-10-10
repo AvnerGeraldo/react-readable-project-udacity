@@ -11,6 +11,10 @@ import watchLogout from './Login/logout_saga'
 import watchPostsGetAll from './Posts/get_all_data_saga'
 import watchVoteChange from './Posts/change_vote_score_saga'
 import watchPostDelete from './Posts/delete_post_saga'
+import watchPostCreate from './Posts/create_post_saga'
+
+//Categories
+import watchCategoriesAll from './Categories/get_all_categories_saga'
 
 //Modal(Create Post)
 import { watchOpenModalCreatePost, watchCloseModalCreatePost } from './Posts/handle_modal_create_post_sagas'
@@ -29,9 +33,11 @@ export default function* () {
         watchPostsGetAll(),
         watchPostDelete(),
         watchVoteChange(),
+        watchPostCreate(),
         watchOpenModalCreatePost(),
         watchCloseModalCreatePost(),
         watchFiltersChange(),
         watchFiltersGet(),
+        watchCategoriesAll(),
     ])
 }

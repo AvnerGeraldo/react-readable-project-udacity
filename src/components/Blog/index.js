@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 //Material UI
 //Structure
 import Grid from '@material-ui/core/Grid'
@@ -11,7 +13,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Header from '../Header'
 import BoxTimeLine from './BoxTimeLine'
 import BoxSideBar from './BoxSideBar'
-import ModalCreatePost from './CreatePost'
+import ModalCreatePost from './ModalCreatePost'
 
 //Style
 const styles = themes => ({
@@ -22,6 +24,17 @@ const styles = themes => ({
 })
 
 class Blog extends Component {
+
+    componentWillMount() {
+        const { getAllCategories } = this.props
+        getAllCategories()
+    }
+    componentDidMount() {
+        const { valueFilter, sortFilter, getAllPosts } = this.props
+        const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
+
+        getAllPosts(sortFilter, filterColumn)        
+    }
 
     render() {
         const { classes } = this.props
@@ -47,4 +60,24 @@ class Blog extends Component {
     }
 }
 
-export default withStyles(styles)(Blog)
+const mapStateToProps = state => {
+    const { valueFilter, sortFilter } = state.filters
+
+    return {
+        valueFilter, 
+        sortFilter,
+    }
+} 
+
+const mapDispatchToProps = dispatch => ({
+    getAllPosts: (sortFilter, filterColumn) => dispatch({ 
+        type: 'GET_ALL_POSTS', 
+        payload: {
+            sortFilter,
+            filterColumn
+        }
+    }),
+    getAllCategories: _=> dispatch({ type: 'GET_ALL_CATEGORIES' })
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Blog))

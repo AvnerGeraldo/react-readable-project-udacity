@@ -32,6 +32,7 @@ import SubHeader from './SubHeader'
 const styles = theme => ({
     root: {
       flexGrow: 1,
+      marginTop: '0.4em',
     },
     paddingBottomCard: {
         paddingBottom: '5px'
@@ -56,6 +57,7 @@ const BoxPost = (props) => {
         authorLogged,
         deletePost
     } = props
+
     const textNumComments =  `${numComments}${(parseInt(numComments) > 1000 ? 'k' : '')} comments`
     const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
 
