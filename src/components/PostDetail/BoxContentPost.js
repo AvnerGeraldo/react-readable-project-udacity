@@ -78,17 +78,7 @@ class BoxContentPost extends Component {
             changeDataEditPost,
         } = this.props
 
-        const {
-                id,
-                timestamp,
-                title,
-                body,
-                author,
-                category,
-                voteScore,
-                deleted,
-                commentCount
-        } = dataPost
+        
 
         const { showLoading } = this.state
         
@@ -100,14 +90,25 @@ class BoxContentPost extends Component {
             )
         }
 
-        if (!showLoading && !id) {
+        if (!showLoading && Object.keys(dataPost).length === 0) {
             return (
                 <Grid item sm={10} xs={12} className={classes.root}>        
                     <Typography variant="display1" align="center" className={classes.loading}>Nothing to show</Typography>
                 </Grid>
             )
         }
-        
+
+        const {
+            id,
+            timestamp,
+            title,
+            body,
+            author,
+            category,
+            voteScore,
+            deleted,
+            commentCount
+        } = dataPost        
         const dateTimePost = moment(timestamp)
         const showDateTime = `${dateTimePost.format('MMMM, D')} of ${dateTimePost.format('YYYY')} at ${dateTimePost.format('HH:mm:ss')} hs`
         const textNumComments =  `${commentCount}${(parseInt(commentCount) > 1000 ? 'k' : '')} comments`
