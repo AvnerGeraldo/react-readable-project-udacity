@@ -11,38 +11,29 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 //Components
 import Header from '../Header'
-import BoxTimeLine from './BoxTimeLine'
-import BoxSideBar from './BoxSideBar'
-import ModalCreatePost from './ModalCreatePost'
+import BoxContentPost from './BoxContentPost'
+import ModalCreatePost from '../Blog/ModalCreatePost'
 
 //Style
 const styles = themes => ({
     root: {
       flexGrow: 1,
-      marginTop: themes.spacing.unit * 9
+      marginTop: themes.spacing.unit * 7
     }
 })
 
-class Blog extends Component {
-
+class BoxPostDetail extends Component {
     componentWillMount() {
         const { dataCategory } = this.props
         dataCategory.length === 0 && this.props.getAllCategories()        
     }
-    componentDidMount() {
-        const { valueFilter, sortFilter, getAllPosts } = this.props
-        const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
-
-        getAllPosts(sortFilter, filterColumn)        
-    }
 
     render() {
-        const { classes, sortFilter, valueFilter, getAllPosts } = this.props
-        const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
-
+        const { classes, match: { params: id }, getPostDataById } = this.props        
+        
         return (
             <React.Fragment>
-                <CssBaseline>
+                <CssBaseline>                    
                     <Header />
                     <Grid 
                         container={true}
@@ -50,10 +41,9 @@ class Blog extends Component {
                         justify="center"
                         direction="row"
                         alignItems="flex-start"
-                        className={classes.root}>                        
-                        <BoxTimeLine />
-                        <BoxSideBar />
-                        <ModalCreatePost closeFunc={() => getAllPosts(sortFilter, filterColumn)}/>
+                        className={classes.root}>
+                        <BoxContentPost id={id}/>
+                        <ModalCreatePost closeFunc={() => getPostDataById(id)}/>
                     </Grid>
                 </CssBaseline>
             </React.Fragment>
@@ -62,24 +52,15 @@ class Blog extends Component {
 }
 
 const mapStateToProps = state => {
-    const { valueFilter, sortFilter } = state.filters
 
     return {
-        valueFilter, 
-        sortFilter,
         dataCategory: Object.keys(state.categories).length !== 0 ? state.categories.categories : [],
     }
 } 
 
 const mapDispatchToProps = dispatch => ({
-    getAllPosts: (sortFilter, filterColumn) => dispatch({ 
-        type: 'GET_ALL_POSTS', 
-        payload: {
-            sortFilter,
-            filterColumn
-        }
-    }),
+    getPostDataById: id => dispatch({ type: 'GET_POST_BY_ID', payload: id }),
     getAllCategories: _=> dispatch({ type: 'GET_ALL_CATEGORIES' })
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Blog))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BoxPostDetail))

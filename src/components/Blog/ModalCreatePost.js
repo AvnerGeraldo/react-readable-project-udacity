@@ -63,6 +63,7 @@ function Transition(props) {
 class ModalCreatePost extends Component {
 
     handleClose = () => {
+        this.props.closeFunc()
         this.props.getInitialData()
         this.props.closeModal()
     }
@@ -100,10 +101,10 @@ class ModalCreatePost extends Component {
             return false
         }
 
-        const { valueFilter, sortFilter, authorLogged, savePost, errorSave, id } = this.props
-        const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
+        const { authorLogged, savePost, errorSave, id } = this.props
         
-        savePost(authorLogged, txtTitle, cboCategory, txtPostText, sortFilter, filterColumn, id)
+        //Save Post
+        savePost(authorLogged, txtTitle, cboCategory, txtPostText, id)
         
         //Quando não existe erro para exibir
         if (errorSave !== undefined && errorSave.length === 0) {
@@ -193,15 +194,12 @@ ModalCreatePost.propTypes = {
 const mapStateToProps = state => {
     const openModal = state.createPostModal.openModal
     const errorSave = state.createPostModal.error
-    const { valueFilter, sortFilter } = state.filters
     const { authorLogged } = state.login
     const { categories } = state.categories
     const { txtTitle, cboCategory, txtPostText, error, id } = state.editPost
 
     return {
         openModal,
-        valueFilter, 
-        sortFilter,
         authorLogged,
         errorSave,
         dataCategory: categories,
@@ -215,15 +213,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     closeModal: _=> dispatch({ type: 'CLOSE_MODAL_CREATE_POST' }),
-    savePost: (author, title, category, postText, sortFilter, filterColumn, id = '') => dispatch({ 
+    savePost: (author, title, category, postText, id = '') => dispatch({ 
         type: 'CREATE_POST', 
         payload: {
             author,
             title, 
             category, 
             postText,
-            sortFilter, 
-            filterColumn,
             id
         }
     }),

@@ -6,6 +6,7 @@ import PrivateRoute from '../Helpers/PrivateRoute'
 import Login from '../Login'
 import Blog from '../Blog'
 import CategoryPosts from '../Blog/CategoryPosts'
+import PostDetail from '../PostDetail'
 
 export default (props) => (
     <Switch>
@@ -23,6 +24,11 @@ export default (props) => (
             path='/blog/posts/category/:category'
             exact
             component={CategoryPosts}
+        />
+        <PrivateRoute
+            path='/blog/post/:id'
+            exact
+            component={PostDetail}
         />
         <Redirect from='*' to='/' />
     </Switch>

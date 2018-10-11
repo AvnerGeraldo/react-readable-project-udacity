@@ -7,6 +7,7 @@ import filters from './PostsFilter'
 import createPostModal from './CreatePostModal'
 import categories from './Category'
 import editPost from './EditPost'
+import viewDataPost from './PostData'
 
 export default combineReducers({
     login,
@@ -14,5 +15,6 @@ export default combineReducers({
     filters,
     createPostModal,
     categories,
-    editPost
+    editPost,
+    viewDataPost,
 })

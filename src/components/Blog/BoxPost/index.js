@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -38,84 +38,94 @@ const styles = theme => ({
         paddingBottom: '5px'
     },
   });
-  
+ 
 
-const BoxPost = (props) => {
-    const { 
-        classes, 
-        id, 
-        title, 
-        textToShow, 
-        author, 
-        numComments, 
-        numVotes, 
-        categoryPost, 
-        timestampPost, 
-        valueFilter, 
-        sortFilter, 
-        changeVote, 
-        authorLogged,
-        deletePost,
-        changeDataEditPost,
-        openModal
-    } = props
+class BoxPost extends Component {
+    handleUpdateVote = (id, voteChange, sortFilter, filterColumn) => {
+        this.props.changeVote(id, voteChange)
+        this.props.getAllPosts(sortFilter, filterColumn)
+    }
 
-    const textNumComments =  `${numComments}${(parseInt(numComments) > 1000 ? 'k' : '')} comments`
-    const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
+    handleDeletePost = (id, sortFilter, filterColumn) => {
+        this.props.deletePost(id)
+        this.props.getAllPosts(sortFilter, filterColumn)
+    }
 
-    return (
-        <Grid item sm={12} xs={12} className={classes.root}>        
-            <Card square={true}>
-                <CardHeader action={
-                    author.toLowerCase() === authorLogged.toLowerCase() && (
-                        <IconButton onClick={() => {
-                            changeDataEditPost({
-                                id,
-                                txtTitle: title, 
-                                cboCategory: categoryPost,
-                                txtPostText: textToShow,
-                            })
+    render() {
+        const { 
+            classes, 
+            id, 
+            title, 
+            textToShow, 
+            author, 
+            numComments, 
+            numVotes, 
+            categoryPost, 
+            timestampPost, 
+            valueFilter, 
+            sortFilter,
+            authorLogged,
+            changeDataEditPost,
+            openModal
+        } = this.props
 
-                            openModal()
-                        }}>
-                            <IconEdit />
+        const textNumComments =  `${numComments}${(parseInt(numComments) > 1000 ? 'k' : '')} comments`
+        const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
+
+        return (
+            <Grid item sm={12} xs={12} className={classes.root}>        
+                <Card square={true}>
+                    <CardHeader action={
+                        author.toLowerCase() === authorLogged.toLowerCase() && (
+                            <IconButton onClick={() => {
+                                changeDataEditPost({
+                                    id,
+                                    txtTitle: title, 
+                                    cboCategory: categoryPost,
+                                    txtPostText: textToShow,
+                                })
+
+                                openModal()
+                            }}>
+                                <IconEdit />
+                            </IconButton>
+                        )
+                    }
+                    title={title}
+                    subheader={<SubHeader author={author} category={categoryPost} timestampPost={timestampPost}/>}
+                    titleTypographyProps={{ 
+                        variant: 'title'
+                    }} className={classes.paddingBottomCard}/>
+                    <CardContent className={classes.paddingBottomCard}>
+                        <Typography component="p">
+                            {`${textToShow.slice(0 , 200)}...`}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <IconButton title="Open Post" component="a" href={`/blog/post/${id}`}>
+                            <IconOpenPost />
                         </IconButton>
-                    )
-                }
-                title={title}
-                subheader={<SubHeader author={author} category={categoryPost} timestampPost={timestampPost}/>}
-                titleTypographyProps={{ 
-                    variant: 'title'
-                }} className={classes.paddingBottomCard}/>
-                <CardContent className={classes.paddingBottomCard}>
-                    <Typography component="p">
-                        {`${textToShow.slice(0 , 200)}...`}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <IconButton title="Open Post">
-                        <IconOpenPost />
-                    </IconButton>
-                    <IconButton title="Comments" disableRipple={true}>
-                        <IconComments/>
-                    </IconButton>
-                    <Typography variant='body2'>{textNumComments}</Typography>             
-                    <IconButton title="Vote Down" onClick={() => changeVote(id, 'downVote', sortFilter, filterColumn)}>
-                        <IconVoteDown />
-                    </IconButton>
-                    <Typography variant='body2'>{numVotes}</Typography>
-                    <IconButton title="Vote Up" onClick={() => changeVote(id, 'upVote', sortFilter, filterColumn)}>
-                        <IconVoteUp />
-                    </IconButton>
-                    {author.toLowerCase() === authorLogged.toLowerCase() && (
-                        <IconButton title="Delete Post" onClick={() => window.confirm('Do you want to delete post ?') && deletePost(id, sortFilter, filterColumn)}>
-                            <IconDelete />
+                        <IconButton title="Comments" disableRipple={true}>
+                            <IconComments/>
                         </IconButton>
-                    )}                    
-                </CardActions>           
-            </Card>
-        </Grid>
-    )
+                        <Typography variant='body2'>{textNumComments}</Typography>             
+                        <IconButton title="Vote Down" onClick={() => this.handleUpdateVote(id, 'downVote', sortFilter, filterColumn)}>
+                            <IconVoteDown />
+                        </IconButton>
+                        <Typography variant='body2'>{numVotes}</Typography>
+                        <IconButton title="Vote Up" onClick={() => this.handleUpdateVote(id, 'upVote', sortFilter, filterColumn)}>
+                            <IconVoteUp />
+                        </IconButton>
+                        {author.toLowerCase() === authorLogged.toLowerCase() && (
+                            <IconButton title="Delete Post" onClick={() => window.confirm('Do you want to delete post ?') && this.handleDeletePost(id, sortFilter, filterColumn)}>
+                                <IconDelete />
+                            </IconButton>
+                        )}                    
+                    </CardActions>           
+                </Card>
+            </Grid>
+        )
+    }
 }
 
 const mapStateToProps = state => {
@@ -130,22 +140,23 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    changeVote: (id, voteChange, sortFilter, filterColumn) => dispatch({ 
-        type: 'CHANGE_VOTE', 
-        payload: {
-            id, 
-            voteChange, 
+    getAllPosts: (sortFilter, filterColumn) => dispatch({
+        type: 'GET_ALL_POSTS',
+        payload: {                
             sortFilter, 
             filterColumn
         }
     }),
-    deletePost: (id, sortFilter, filterColumn) => dispatch({ 
-        type: 'DELETE_POST', 
+    changeVote: (id, voteChange) => dispatch({ 
+        type: 'CHANGE_VOTE', 
         payload: {
-            id,
-            sortFilter, 
-            filterColumn
+            id, 
+            voteChange, 
         }
+    }),
+    deletePost: (id) => dispatch({ 
+        type: 'DELETE_POST', 
+        payload: { id }
     }),
     changeDataEditPost: objData => dispatch({ type: 'EDIT_POST', payload: { ...objData }}),
     openModal: _=> dispatch({ type: 'OPEN_MODAL_CREATE_POST' }),
