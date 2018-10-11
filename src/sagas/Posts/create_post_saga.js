@@ -5,10 +5,9 @@ import moment from 'moment'
 
 function* createPost({ payload }) {
     try {
-        const { author, title, category, postText, sortFilter, filterColumn, id } = payload
+        const { author, title, category, postText, id } = payload
 
         yield sendRequest(author, title, category, postText, id)
-        yield requestUpdateData(sortFilter, filterColumn)
     } catch(error) {
         yield put({ 
             type: FAIL_SAVE_CREATE_POST_ASYNC, 
@@ -51,16 +50,6 @@ function* sendRequest(author, title, category, postText, id = '') {
         },
         body: JSON.stringify(body)
     }) 
-}
-
-function* requestUpdateData(sortFilter, filterColumn) {
-    yield put({ 
-        type: 'GET_ALL_POSTS', 
-        payload: {
-            sortFilter, 
-            filterColumn
-        }
-    })
 }
 
 export default function* () {

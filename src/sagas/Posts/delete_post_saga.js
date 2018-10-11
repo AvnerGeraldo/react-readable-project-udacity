@@ -3,14 +3,8 @@ import { takeLatest, put, call } from 'redux-saga/effects'
 import { token, urlServer } from '../../helpers/helpFetch'
 
 function* deletePost({ payload }) {
-    try {
-        const { id, sortFilter, filterColumn } = payload
-
-        yield sendRequest(id)
-        yield requestUpdateData(sortFilter, filterColumn)
-    } catch(error) {
-        yield put({ type: FAIL_GET_POSTS_ASYNC, payload: { error }})
-    }
+    const { id } = payload
+    yield sendRequest(id)    
 }
 
 function* sendRequest(id) {
@@ -21,16 +15,6 @@ function* sendRequest(id) {
             'Content-Type': 'application/json', 
         },
     }) 
-}
-
-function* requestUpdateData(sortFilter, filterColumn) {
-    yield put({ 
-        type: 'GET_ALL_POSTS', 
-        payload: {
-            sortFilter, 
-            filterColumn
-        }
-    })
 }
 
 export default function* () {

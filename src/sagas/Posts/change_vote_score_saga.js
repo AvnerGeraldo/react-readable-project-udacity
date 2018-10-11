@@ -3,18 +3,12 @@ import { takeLatest, put, call } from 'redux-saga/effects'
 import { token, urlServer } from '../../helpers/helpFetch'
 
 function* updateVoteScore({ payload }) {
-    try {
-        const { id, voteChange, sortFilter, filterColumn } = payload
-
-        yield sendRequest(id, voteChange)
-        yield requestUpdateData(sortFilter, filterColumn)
-    } catch(error) {
-        yield put({ type: FAIL_GET_POSTS_ASYNC, payload: { error }})
-    }
+    const { id, voteChange } = payload
+    yield sendRequest(id, voteChange)
 }
 
 function* sendRequest(id, vote) {
-    const response = yield call(fetch, `${urlServer}/posts/${id}`, {
+    yield call(fetch, `${urlServer}/posts/${id}`, {
         method: 'POST',
         headers: {
             'Authorization': token,
@@ -24,16 +18,6 @@ function* sendRequest(id, vote) {
             'option': vote
         }),
     }) 
-}
-
-function* requestUpdateData(sortFilter, filterColumn) {
-    yield put({ 
-        type: 'GET_ALL_POSTS', 
-        payload: {
-            sortFilter, 
-            filterColumn
-        }
-    })
 }
 
 export default function* () {
