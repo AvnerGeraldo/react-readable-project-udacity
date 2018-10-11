@@ -15,6 +15,7 @@ import watchPostCreate from './Posts/create_post_saga'
 import watchPostByCategory from './Posts/get_data_by_category_saga'
 import watchInitialDataEditPost from './Posts/initial_data_edit_post_saga'
 import watchChangeDataPost from './Posts/change_data_post'
+import watchPostById from './Posts/get_data_by_id_saga'
 
 //Categories
 import watchCategoriesAll from './Categories/get_all_categories_saga'
@@ -40,6 +41,7 @@ export default function* () {
         watchPostByCategory(),
         watchInitialDataEditPost(),
         watchChangeDataPost(),
+        watchPostById(),
         watchOpenModalCreatePost(),
         watchCloseModalCreatePost(),
         watchFiltersChange(),
