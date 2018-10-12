@@ -32,7 +32,7 @@ import capitalize from '../../helpers/capitalize'
 const styles = theme => ({
     root: {
         padding: theme.spacing.unit * 2,
-        marginTop: theme.spacing.unit * 2
+        marginTop: theme.spacing.unit * 0.2
     },
     infoPost: {
         marginLeft: theme.spacing.unit * 3.1,

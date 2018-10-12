@@ -4,9 +4,13 @@ import { connect } from 'react-redux'
 //Material UI
 //Structure
 import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+
+//Items
+import Typography from '@material-ui/core/Typography'
 
 //Core
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 //Components
@@ -18,10 +22,14 @@ import BoxViewComment from './BoxViewComment'
 import ModalCreatePost from '../Blog/ModalCreatePost'
 
 //Style
-const styles = themes => ({
+const styles = theme => ({
     root: {
       flexGrow: 1,
-      marginTop: themes.spacing.unit * 7
+      marginTop: theme.spacing.unit * 4.3
+    },
+    buttonBack: {
+        textDecoration: 'none',
+        padding: theme.spacing.unit * 2
     }
 })
 
@@ -45,6 +53,11 @@ class BoxPostDetail extends Component {
                         direction="row"
                         alignItems="flex-start"
                         className={classes.root}>
+                        <Grid item sm={10} xs={12} className={classes.root}>
+                            <Paper square={true}>
+                                <Typography variant="button" component="a" href="/blog/posts" color="primary" className={classes.buttonBack}>Voltar</Typography>
+                            </Paper>
+                        </Grid>
                         <BoxContentPost id={id}/>
                         <BoxViewComment idPost={id}/>
                         <ModalCreatePost closeFunc={() => getPostDataById(id)}/>
