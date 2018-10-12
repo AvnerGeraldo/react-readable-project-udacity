@@ -89,7 +89,7 @@ class BoxContentPost extends Component {
                 </Grid>
             )
         }
-
+        
         if (!showLoading && Object.keys(dataPost).length === 0) {
             return (
                 <Grid item sm={10} xs={12} className={classes.root}>        

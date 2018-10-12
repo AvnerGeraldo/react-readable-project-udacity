@@ -8,6 +8,8 @@ import createPostModal from './CreatePostModal'
 import categories from './Category'
 import editPost from './EditPost'
 import viewDataPost from './PostData'
+import postComment from './PostComments'
+
 
 export default combineReducers({
     login,
@@ -17,4 +19,5 @@ export default combineReducers({
     categories,
     editPost,
     viewDataPost,
+    postComment
 })

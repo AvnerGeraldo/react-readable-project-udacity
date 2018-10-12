@@ -12,6 +12,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 //Components
 import Header from '../Header'
 import BoxContentPost from './BoxContentPost'
+import BoxViewComment from './BoxViewComment'
+
+//Modal
 import ModalCreatePost from '../Blog/ModalCreatePost'
 
 //Style
@@ -29,8 +32,8 @@ class BoxPostDetail extends Component {
     }
 
     render() {
-        const { classes, match: { params: id }, getPostDataById } = this.props        
-        
+        const { classes, match: { params: id }, getPostDataById } = this.props
+
         return (
             <React.Fragment>
                 <CssBaseline>                    
@@ -43,6 +46,7 @@ class BoxPostDetail extends Component {
                         alignItems="flex-start"
                         className={classes.root}>
                         <BoxContentPost id={id}/>
+                        <BoxViewComment idPost={id}/>
                         <ModalCreatePost closeFunc={() => getPostDataById(id)}/>
                     </Grid>
                 </CssBaseline>
@@ -52,7 +56,6 @@ class BoxPostDetail extends Component {
 }
 
 const mapStateToProps = state => {
-
     return {
         dataCategory: Object.keys(state.categories).length !== 0 ? state.categories.categories : [],
     }
@@ -60,7 +63,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     getPostDataById: id => dispatch({ type: 'GET_POST_BY_ID', payload: id }),
-    getAllCategories: _=> dispatch({ type: 'GET_ALL_CATEGORIES' })
+    getAllCategories: _=> dispatch({ type: 'GET_ALL_CATEGORIES' }),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BoxPostDetail))

@@ -1,13 +1,13 @@
-import { takeLatest,  call } from 'redux-saga/effects'
+import { takeLatest, call } from 'redux-saga/effects'
 import { token, urlServer } from '../../helpers/helpFetch'
 
-function* deletePost({ payload }) {
+function* deleteComment({ payload }) {
     const { id } = payload
     yield sendRequest(id)    
 }
 
 function* sendRequest(id) {
-    yield call(fetch, `${urlServer}/posts/${id}`, {
+    yield call(fetch, `${urlServer}/comments/${id}`, {
         method: 'DELETE',
         headers: {
             'Authorization': token,
@@ -17,5 +17,5 @@ function* sendRequest(id) {
 }
 
 export default function* () {
-    yield takeLatest('DELETE_POST', deletePost)
+    yield takeLatest('DELETE_COMMENT', deleteComment)
 }

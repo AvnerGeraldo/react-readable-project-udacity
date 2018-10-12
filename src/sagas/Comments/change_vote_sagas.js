@@ -1,4 +1,4 @@
-import { takeLatest, call } from 'redux-saga/effects'
+import { takeEvery, call } from 'redux-saga/effects'
 import { token, urlServer } from '../../helpers/helpFetch'
 
 function* updateVoteScore({ payload }) {
@@ -7,7 +7,7 @@ function* updateVoteScore({ payload }) {
 }
 
 function* sendRequest(id, vote) {
-    yield call(fetch, `${urlServer}/posts/${id}`, {
+    yield call(fetch, `${urlServer}/comments/${id}`, {
         method: 'POST',
         headers: {
             'Authorization': token,
@@ -20,5 +20,5 @@ function* sendRequest(id, vote) {
 }
 
 export default function* () {
-    yield takeLatest('CHANGE_VOTE', updateVoteScore)
+    yield takeEvery('CHANGE_VOTE_COMMENT', updateVoteScore)
 }

@@ -17,6 +17,12 @@ import watchInitialDataEditPost from './Posts/initial_data_edit_post_saga'
 import watchChangeDataPost from './Posts/change_data_post'
 import watchPostById from './Posts/get_data_by_id_saga'
 
+//Comments
+import watchPostCommentsById from './Comments/get_all_data_comments_by_id_saga'
+import watchChangeVoteComments from './Comments/change_vote_sagas'
+import watchChangeComment from './Comments/handle_comment_sagas'
+import watchDeleteComment from './Comments/delete_comment_sagas'
+
 //Categories
 import watchCategoriesAll from './Categories/get_all_categories_saga'
 
@@ -47,5 +53,9 @@ export default function* () {
         watchFiltersChange(),
         watchFiltersGet(),
         watchCategoriesAll(),
+        watchPostCommentsById(),
+        watchChangeVoteComments(),
+        watchChangeComment(),
+        watchDeleteComment()
     ])
 }
