@@ -29,11 +29,12 @@ class Blog extends Component {
         const { dataCategory } = this.props
         dataCategory.length === 0 && this.props.getAllCategories()        
     }
+
     componentDidMount() {
         const { valueFilter, sortFilter, getAllPosts } = this.props
         const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
 
-        getAllPosts(sortFilter, filterColumn)        
+        getAllPosts(sortFilter, filterColumn)
     }
 
     render() {

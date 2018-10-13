@@ -12,22 +12,26 @@ import { withStyles } from '@material-ui/core/styles';
 //Components
 import BoxFilter from './BoxFilter'
 import BoxPost from './BoxPost'
+import BoxShowInfoData from '../Helpers/BoxShowInfoData'
 
 //Styles
 const styles = theme => ({
     boxPosts: {
-        minHeight: '20em',
+        minHeight: theme.spacing.unit * 33.7,
         height: 'auto',
     }
   });
   
 
 const BoxPosts = (props) => {
-    const { classes, dataPost } = props
+    const { classes, dataPost, loadingData } = props
+    const textToShow = loadingData === true ? 'No results' : 'Loading data...'
+
     return (
         <Grid item sm={7} xs={12}>            
             <Paper className={`${classes.boxPosts}`}>
                 <BoxFilter />
+                { (!dataPost.data || dataPost.data && dataPost.error ) && <BoxShowInfoData textToShow={textToShow} />}
                 { dataPost.data && 
                     dataPost.data.map(v => {                          
                         return (!v.deleted && <BoxPost key={v.id}
@@ -48,10 +52,11 @@ const BoxPosts = (props) => {
 }
 
 const mapStateToProps = state => {
-    const { dataPost } = state.posts
+    const { dataPost, loadingData } = state.posts
     
     return {
-        dataPost
+        dataPost,
+        loadingData,
     }
 }
 
