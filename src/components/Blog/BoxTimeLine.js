@@ -26,12 +26,15 @@ const styles = theme => ({
 const BoxPosts = (props) => {
     const { classes, dataPost, loadingData } = props
     const textToShow = loadingData === true ? 'No results' : 'Loading data...'
-
+    const showInfoBox = (dataPost.length === 0 || !dataPost.data || 
+        dataPost.length > 0 && dataPost.data.length >= 0 && dataPost.error ||
+        dataPost.data && dataPost.data.length === 0)
+        
     return (
         <Grid item sm={7} xs={12}>            
             <Paper className={`${classes.boxPosts}`}>
                 <BoxFilter />
-                { (!dataPost.data || dataPost.data && dataPost.error ) && <BoxShowInfoData textToShow={textToShow} />}
+                { showInfoBox && <BoxShowInfoData textToShow={textToShow} />}
                 { dataPost.data && 
                     dataPost.data.map(v => {                          
                         return (!v.deleted && <BoxPost key={v.id}
@@ -53,7 +56,7 @@ const BoxPosts = (props) => {
 
 const mapStateToProps = state => {
     const { dataPost, loadingData } = state.posts
-    
+
     return {
         dataPost,
         loadingData,
