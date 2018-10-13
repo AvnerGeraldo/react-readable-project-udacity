@@ -69,7 +69,6 @@ const styles = theme => ({
 class BoxViewComment extends Component {
     state = {
         dataComment: [],
-        idEditedComment: '',
     }
 
     componentWillMount() {
@@ -90,7 +89,7 @@ class BoxViewComment extends Component {
             dataComment: {
                 id,
                 body
-            },
+            }
         })
     }
 
@@ -101,7 +100,6 @@ class BoxViewComment extends Component {
 
     render() {
         const { classes, data, error, authorLogged } = this.props
-        const { idEditedComment } = this.state
 
         return (
             <Grid item sm={10} xs={12} className={classes.root}>
@@ -115,7 +113,8 @@ class BoxViewComment extends Component {
                     const { id, author, body, voteScore, timestamp, deleted } = v
                     const dateTimePost = moment(timestamp)
                     const showDateTime = `${dateTimePost.format('MMMM, D')} of ${dateTimePost.format('YYYY')} at ${dateTimePost.format('HH:mm:ss')} hs`
-                    const showComment = deleted === false || idEditedComment !== id
+                    const showComment = deleted === false
+
                     if (showComment) {
                         return (
                             <Card square={true} key={id} className={classes.boxComment}>

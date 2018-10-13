@@ -72,7 +72,6 @@ class BoxContentPost extends Component {
         const { 
             classes, 
             dataPost,
-            errorPost,
             authorLogged,
             openModal,
             changeDataEditPost,
@@ -106,7 +105,6 @@ class BoxContentPost extends Component {
             author,
             category,
             voteScore,
-            deleted,
             commentCount
         } = dataPost        
         const dateTimePost = moment(timestamp)

@@ -2,8 +2,8 @@ import { takeLatest, call } from 'redux-saga/effects'
 import moment from 'moment'
 import { token, urlServer } from '../../helpers/helpFetch'
 
-function* handleComentInsertUpdate({ payload: { idPost, idComment, body, author } }) {
-    let data = []
+function* handleComentInsertUpdate({ payload }) {
+    const { idPost, idComment, body, author } = payload
     const timestamp = parseInt(moment().format('x'))
     
     if (idComment) {

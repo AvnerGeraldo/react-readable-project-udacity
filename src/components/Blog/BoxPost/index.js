@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 
 //Material UI
 //Structure
@@ -69,8 +68,8 @@ class BoxPost extends Component {
             openModal
         } = this.props
 
-        const textNumComments =  `${numComments}${(parseInt(numComments) > 1000 ? 'k' : '')} comments`
-        const filterColumn = valueFilter === 'dateOfCreation' ? 'timestamp' : 'voteScore'
+        const textNumComments =  `${numComments}` + ((parseInt(numComments) > 1000) ? 'k' : '') + `comments`
+        const filterColumn = (valueFilter === 'dateOfCreation') ? 'timestamp' : 'voteScore'
 
         return (
             <Grid item sm={12} xs={12} className={classes.root}>        
