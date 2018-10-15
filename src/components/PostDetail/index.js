@@ -35,12 +35,12 @@ const styles = theme => ({
 
 class BoxPostDetail extends Component {
     componentWillMount() {
-        const { dataCategory } = this.props
-        dataCategory.length === 0 && this.props.getAllCategories()        
+        const { dataCategory, getAllCategories } = this.props
+        dataCategory.length === 0 && getAllCategories()
     }
 
     render() {
-        const { classes, match: { params: id }, getPostDataById } = this.props
+        const { classes, match: { params: { id } }, getPostDataById, viewDataPost } = this.props
 
         return (
             <React.Fragment>
@@ -58,7 +58,7 @@ class BoxPostDetail extends Component {
                                 <Typography variant="button" component="a" href="/" color="primary" className={classes.buttonBack}>Voltar</Typography>
                             </Paper>
                         </Grid>
-                        <BoxContentPost id={id}/>
+                        <BoxContentPost idPost={id}/>
                         <BoxViewComment idPost={id}/>
                         <ModalCreatePost closeFunc={() => getPostDataById(id)}/>
                     </Grid>
@@ -69,13 +69,15 @@ class BoxPostDetail extends Component {
 }
 
 const mapStateToProps = state => {
+    const { categories, viewDataPost } = state
     return {
-        dataCategory: Object.keys(state.categories).length !== 0 ? state.categories.categories : [],
+        dataCategory: Object.keys(categories).length !== 0 ? categories.categories : [],
+        viewDataPost,
     }
 } 
 
 const mapDispatchToProps = dispatch => ({
-    getPostDataById: id => dispatch({ type: 'GET_POST_BY_ID', payload: id }),
+    getPostDataById: id => dispatch({ type: 'GET_POST_BY_ID', payload: { id }}),
     getAllCategories: _=> dispatch({ type: 'GET_ALL_CATEGORIES' }),
 })
 
