@@ -59,7 +59,7 @@ class BoxComment extends Component {
     componentWillReceiveProps(nextProps) {
         const bodyReceive = nextProps.body
 
-        if (this.state.body.length === 0 && bodyReceive.length > 0) {            
+        if (this.state.body && this.state.body.length === 0 && bodyReceive.length > 0) {            
             this.setState({
                 body: bodyReceive,
                 showEditButton: true
@@ -73,9 +73,10 @@ class BoxComment extends Component {
 
     handleComment = (idPost, idComment, body, author) => {
         const { getPostDataById, getPostComments, handleComment } = this.props
-        handleComment(idPost.id, idComment, body, author)
+        handleComment(idPost, idComment, body, author)
         getPostComments(idPost)
         getPostDataById(idPost)
+        
         //Limpar campo
         this.setState({ body: '', showEditButton: false })
     }
@@ -130,8 +131,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    getPostDataById: id => dispatch({ type: 'GET_POST_BY_ID', payload: id }),
-    getPostComments: id => dispatch({ type: 'GET_ALL_COMMENTS_POST_BY_ID', payload: id }),
+    getPostDataById: id => dispatch({ type: 'GET_POST_BY_ID', payload: { id }}),
+    getPostComments: id => dispatch({ type: 'GET_ALL_COMMENTS_POST_BY_ID', payload: { id }}),
     handleComment: (idPost, idComment, body, author) => dispatch({ 
         type: 'HANDLE_COMMENT', 
         payload: { idPost, idComment, body, author }
