@@ -77,7 +77,7 @@ class BoxContentPost extends Component {
     }
 
     render() {
-        const { dataPost } = this.props
+        const { dataPost, loadingData } = this.props
         const { showLoading } = this.state
         
         if (showLoading) {
@@ -86,7 +86,11 @@ class BoxContentPost extends Component {
             )
         }
 
-        if (Object.keys(dataPost).length === 0) {
+        if (Object.keys(dataPost).length === 0 && !loadingData) {
+            return null
+        }
+
+        if (Object.keys(dataPost).length === 0 && loadingData) {
             return <Redirect to="/404"/>
         }
 
@@ -164,10 +168,12 @@ class BoxContentPost extends Component {
 
 const mapStateToProps = state => {
     const { authorLogged } = state.login
+    const { data, error, loadingData } = state.viewDataPost
 
     return {
-        dataPost: state.viewDataPost.data,
-        errorPost: state.viewDataPost.error,
+        dataPost: data,
+        errorPost: error,
+        loadingData,
         authorLogged,
     }    
 }
