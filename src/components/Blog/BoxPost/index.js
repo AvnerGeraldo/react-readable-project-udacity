@@ -101,7 +101,7 @@ class BoxPost extends Component {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <IconButton title="Open Post" component="a" href={`/blog/post/${id}`}>
+                        <IconButton title="Open Post" component="a" href={`/${categoryPost}/${id}`}>
                             <IconOpenPost />
                         </IconButton>
                         <IconButton title="Comments" disableRipple={true}>

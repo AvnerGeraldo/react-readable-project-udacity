@@ -62,14 +62,14 @@ const BoxSideBar = (props) => {
             <Paper square={true} className={`${classes.control} ${classes.boxCategory}`}>
                 <Typography align="center" variant="title" color="default">Categories</Typography>
                 <List component="nav">
-                    <ListItem button component="a" href="/blog/posts" selected={categoryUrl === ''}>
+                    <ListItem button component="a" href="/" selected={categoryUrl === ''}>
                         <ListItemText primary="Todas"/>
                     </ListItem>
                     {dataCategory && dataCategory.map(v => (
                         <ListItem key={v.name} 
                             button 
                             component="a" 
-                            href={`/blog/posts/category/${v.name}`}
+                            href={`/${v.name}`}
                             selected={categoryUrl === v.name}>
                             <ListItemText primary={capitalize(v.name)} />
                         </ListItem>

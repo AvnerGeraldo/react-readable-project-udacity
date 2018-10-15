@@ -55,7 +55,7 @@ class BoxPostDetail extends Component {
                         className={classes.root}>
                         <Grid item sm={10} xs={12} className={classes.root}>
                             <Paper square={true}>
-                                <Typography variant="button" component="a" href="/blog/posts" color="primary" className={classes.buttonBack}>Voltar</Typography>
+                                <Typography variant="button" component="a" href="/" color="primary" className={classes.buttonBack}>Voltar</Typography>
                             </Paper>
                         </Grid>
                         <BoxContentPost id={id}/>
