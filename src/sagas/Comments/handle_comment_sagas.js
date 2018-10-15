@@ -29,7 +29,6 @@ function* sendRequestUpdate(id, timestamp, body) {
 }
 
 function* sendRequestInsert(idPost, body, author, timestamp) {
-    console.log('entrou aqui tb')
     yield call(fetch, `${urlServer}/comments`, {
         method: 'POST',
         headers: {
