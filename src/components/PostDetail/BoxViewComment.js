@@ -72,34 +72,36 @@ class BoxViewComment extends Component {
     }
 
     componentWillMount() {
-        this.props.getPostComments(this.props.idPost)
-    }
-
-    componentWillReceiveProps(nextProps, ownProps) {
-        console.log(nextProps, ownProps)
+        const { getPostComments, idPost } = this.props
+        getPostComments(idPost)
     }
 
     handleUpdateVote = (id, voteChange) => {
-        this.props.changeVote(id, voteChange)
-        this.props.getPostComments(this.props.idPost)
+        const { changeVote, getPostComments, idPost } = this.props
+
+        changeVote(id, voteChange)
+        getPostComments(idPost)
     }
 
     handleChangeComment = (id, body) => {
         this.setState({
-            dataComment: {
-                id,
-                body
-            }
+            dataComment: { id, body }
         })
     }
 
     handleDeleteComment = (id) => {
-        this.props.deleteComment(id)
-        this.props.getPostComments(this.props.idPost)
+        const { deleteComment, getPostComments, idPost } = this.props
+        
+        deleteComment(id)
+        getPostComments(idPost)
     }
 
     render() {
-        const { classes, data, error, authorLogged } = this.props
+        const { classes, data, error, authorLogged, dataPost } = this.props
+
+        if (Object.keys(dataPost).length === 0) {
+            return null
+        }
 
         return (
             <Grid item sm={10} xs={12} className={classes.root}>
@@ -160,6 +162,7 @@ const mapStateToProps = state => {
     const { authorLogged } = state.login
 
     return {
+        dataPost: state.viewDataPost.data,
         data: state.postComment.data,
         error: state.postComment.error,
         authorLogged,
@@ -167,7 +170,7 @@ const mapStateToProps = state => {
 } 
 
 const mapDispatchToProps = dispatch => ({
-    getPostComments: id => dispatch({ type: 'GET_ALL_COMMENTS_POST_BY_ID', payload: id }),
+    getPostComments: id => dispatch({ type: 'GET_ALL_COMMENTS_POST_BY_ID', payload: { id }}),
     changeVote: (id, voteChange) => dispatch({ 
         type: 'CHANGE_VOTE_COMMENT', 
         payload: {
