@@ -9,7 +9,7 @@ import CategoryPosts from '../Blog/CategoryPosts'
 import PostDetail from '../PostDetail'
 import Page404 from '../Page404'
 
-export default (props) => (
+export default () => (
     <Switch>
         <Route 
             path='/access'
@@ -21,6 +21,11 @@ export default (props) => (
             exact
             component={Blog}
         />
+        <Route 
+            path='/404'
+            exact
+            component={Page404}
+        />
         <PrivateRoute
             path='/:category'
             exact
@@ -30,11 +35,6 @@ export default (props) => (
             path='/:category/:id'
             exact
             component={PostDetail}
-        />
-        <Route 
-            path='/404'
-            exact
-            component={Page404}
         />
         <Redirect from='*' to='/404' />
     </Switch>
