@@ -2,13 +2,13 @@ import { GET_POST_BY_ID_ASYNC, FAIL_GET_POST_BY_ID_ASYNC } from '../../actions/P
 import { takeLatest, put, call } from 'redux-saga/effects'
 import { token, urlServer } from '../../helpers/helpFetch'
 
-function* getDataPostById({ payload: { id } }) {
+function* getDataPostById({ payload: { id }}) {
     const data = yield fetchData(id)
     yield put({ type: GET_POST_BY_ID_ASYNC, payload: { data }})
 }
 
 function* fetchData(id) {
-    try{
+    try {
         const response = yield call(fetch, `${urlServer}/posts/${id}`, {
             method: 'GET',
             headers: {
@@ -17,6 +17,11 @@ function* fetchData(id) {
         })
 
         const data = yield call([response, "json"])
+        
+        if (data.error) {
+            throw data.error
+        }
+
         return data
     } catch (error) {
         yield put({ type: FAIL_GET_POST_BY_ID_ASYNC, payload: { error }})
