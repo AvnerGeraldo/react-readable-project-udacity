@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import { Redirect } from 'react-router-dom'
 
 //Material UI
 //Structure
@@ -28,6 +29,9 @@ import { withStyles } from '@material-ui/core/styles';
 
 import capitalize from '../../helpers/capitalize'
 
+//Components
+import BoxShowInfoData from '../Helpers/BoxShowInfoData'
+
 //Styles
 const styles = theme => ({
     root: {
@@ -53,49 +57,45 @@ class BoxContentPost extends Component {
     }
 
     componentDidMount() {
-        const { getPostDataById, id } = this.props
-        getPostDataById(id)
+        const { idPost, getPostDataById } = this.props
+        getPostDataById(idPost)
+
+        //Set Loading
         this.setState({ showLoading: false })
     }
 
     handleUpdateVote = (id, voteChange) => {
-        this.props.changeVote(id, voteChange)
-        this.props.getPostDataById({id})
+        const { changeVote, getPostDataById } = this.props
+        changeVote(id, voteChange)
+        getPostDataById(id)
     }
 
     handleDeletePost = (id) => {
-        this.props.deletePost(id)
-        this.props.getPostDataById({id})
+        const { deletePost, getPostDataById } = this.props
+        deletePost(id)
+        getPostDataById(id)
     }
 
     render() {
-        const { 
-            classes, 
-            dataPost,
-            authorLogged,
-            openModal,
-            changeDataEditPost,
-        } = this.props
-
-        
-
+        const { dataPost } = this.props
         const { showLoading } = this.state
         
         if (showLoading) {
             return (
-                <Grid item sm={10} xs={12} className={classes.root}>        
-                    <Typography variant="display1" align="center" className={classes.loading}>Loading data...</Typography>
-                </Grid>
+                <BoxShowInfoData textToShow='Loading data...' />
             )
         }
-        
-        if (!showLoading && Object.keys(dataPost).length === 0) {
-            return (
-                <Grid item sm={10} xs={12} className={classes.root}>        
-                    <Typography variant="display1" align="center" className={classes.loading}>Nothing to show</Typography>
-                </Grid>
-            )
+
+        if (Object.keys(dataPost).length === 0) {
+            return <Redirect to="/404"/>
         }
+
+        const { 
+            classes, 
+            authorLogged,
+            openModal,
+            changeDataEditPost
+        } = this.props
 
         const {
             id,
@@ -106,10 +106,12 @@ class BoxContentPost extends Component {
             category,
             voteScore,
             commentCount
-        } = dataPost        
+        } = dataPost
+
         const dateTimePost = moment(timestamp)
         const showDateTime = `${dateTimePost.format('MMMM, D')} of ${dateTimePost.format('YYYY')} at ${dateTimePost.format('HH:mm:ss')} hs`
         const textNumComments =  `${commentCount}${(parseInt(commentCount) > 1000 ? 'k' : '')} comments`
+
         return (
             <Grid item sm={10} xs={12} className={classes.root}>        
                 <Card square={true}>
@@ -171,7 +173,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    getPostDataById: id => dispatch({ type: 'GET_POST_BY_ID', payload: id }),
+    getPostDataById: id => dispatch({ type: 'GET_POST_BY_ID', payload: { id }}),
     changeVote: (id, voteChange) => dispatch({ 
         type: 'CHANGE_VOTE', 
         payload: {
