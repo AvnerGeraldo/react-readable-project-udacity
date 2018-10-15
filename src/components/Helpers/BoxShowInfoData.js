@@ -22,10 +22,10 @@ const styles = theme => ({
     },
 })
 
-const LoadingData = ({ textToShow, classes }) => (
+const BoxShowInfoData = ({ textToShow, classes }) => (
     <Grid item sm={12} xs={12} className={classes.root}>
         <Typography variant="display1" align="center" className={classes.loading}>{textToShow}</Typography>
     </Grid>
 )
 
-export default withStyles(styles)(LoadingData)
+export default withStyles(styles)(BoxShowInfoData)
