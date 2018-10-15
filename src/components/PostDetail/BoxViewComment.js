@@ -90,10 +90,11 @@ class BoxViewComment extends Component {
     }
 
     handleDeleteComment = (id) => {
-        const { deleteComment, getPostComments, idPost } = this.props
+        const { deleteComment, getPostComments, getPostDataById, idPost } = this.props
         
         deleteComment(id)
         getPostComments(idPost)
+        getPostDataById(idPost)
     }
 
     render() {
@@ -170,6 +171,7 @@ const mapStateToProps = state => {
 } 
 
 const mapDispatchToProps = dispatch => ({
+    getPostDataById: id => dispatch({ type: 'GET_POST_BY_ID', payload: { id }}),
     getPostComments: id => dispatch({ type: 'GET_ALL_COMMENTS_POST_BY_ID', payload: { id }}),
     changeVote: (id, voteChange) => dispatch({ 
         type: 'CHANGE_VOTE_COMMENT', 
