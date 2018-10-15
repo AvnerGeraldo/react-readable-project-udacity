@@ -68,7 +68,7 @@ class BoxPost extends Component {
             openModal
         } = this.props
 
-        const textNumComments =  `${numComments}` + ((parseInt(numComments) > 1000) ? 'k' : '') + `comments`
+        const textNumComments =  `${numComments}` + ((parseInt(numComments) > 1000) ? 'k' : '') + ` comments`
         const filterColumn = (valueFilter === 'dateOfCreation') ? 'timestamp' : 'voteScore'
 
         return (
