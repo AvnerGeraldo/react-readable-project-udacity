@@ -58,8 +58,9 @@ class BoxComment extends Component {
 
     componentWillReceiveProps(nextProps) {
         const bodyReceive = nextProps.body
+        const { body } = this.state
 
-        if (this.state.body && this.state.body.length === 0 && bodyReceive.length > 0) {            
+        if (body !== undefined && body.length === 0 && bodyReceive.length > 0) {            
             this.setState({
                 body: bodyReceive,
                 showEditButton: true
@@ -76,7 +77,7 @@ class BoxComment extends Component {
         handleComment(idPost, idComment, body, author)
         getPostComments(idPost)
         getPostDataById(idPost)
-        
+
         //Limpar campo
         this.setState({ body: '', showEditButton: false })
     }
