@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 //Material UI
 //Structure
@@ -27,5 +28,11 @@ const BoxShowInfoData = ({ textToShow, classes }) => (
         <Typography variant="display1" align="center" className={classes.loading}>{textToShow}</Typography>
     </Grid>
 )
+
+const { string, object } = PropTypes
+BoxShowInfoData.propTypes = {
+    textToShow: string.isRequired,
+    classes: object
+}
 
 export default withStyles(styles)(BoxShowInfoData)

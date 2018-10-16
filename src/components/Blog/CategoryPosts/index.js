@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 //Material UI
 //Structure
@@ -83,5 +84,21 @@ const mapDispatchToProps = dispatch => ({
     }),
     getAllCategories: _=> dispatch({ type: 'GET_ALL_CATEGORIES' })
 })
+
+const { string, array, func, object, shape } = PropTypes
+
+CategoryPosts.propTypes = {
+    valueFilter: string.isRequired, 
+    sortFilter: string.isRequired,
+    dataCategory: array,
+    classes: object,
+    getPostsByCategory: func.isRequired,
+    getAllCategories: func.isRequired,
+    match: shape({
+        params: shape({
+            category: string
+        })
+    })
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CategoryPosts))

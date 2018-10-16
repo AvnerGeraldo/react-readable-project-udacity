@@ -21,10 +21,5 @@ const mapStateToProps = state => ({
     isLogged: state.login.isLogged
 })
 
-const mapDispatchToProps = dispatch => ({
-    verifyIsLogged: _ => dispatch({ type: 'IS_LOGGED' }),
-    logout: _ => dispatch({ type: 'LOGOUT' })
-})
-
 //Enable PrivateRoute to re render component
-export default connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(PrivateRoute)
+export default connect(mapStateToProps, null, null, { pure: false })(PrivateRoute)

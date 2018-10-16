@@ -1,7 +1,7 @@
 import { GET_POST_BY_ID_ASYNC, FAIL_GET_POST_BY_ID_ASYNC } from '../actions/Posts'
 
 const initialData = {
-    data: [],
+    data: {},
     loadingData: false,
 }
 
@@ -16,7 +16,7 @@ export default (state = initialData, { type, payload }) => {
         case FAIL_GET_POST_BY_ID_ASYNC:
             return {
                 ...state,
-                data: [],
+                data: {},
                 error: payload.error,
                 loadingData: true,
             }        

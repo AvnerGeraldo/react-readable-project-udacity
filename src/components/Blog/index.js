@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 //Material UI
 //Structure
@@ -68,7 +69,7 @@ const mapStateToProps = state => {
     return {
         valueFilter, 
         sortFilter,
-        dataCategory: Object.keys(state.categories).length !== 0 ? state.categories.categories : [],
+        dataCategory: Object.keys(state.categories).length !== 0 ? state.categories.categories: [],
     }
 } 
 
@@ -82,5 +83,16 @@ const mapDispatchToProps = dispatch => ({
     }),
     getAllCategories: _=> dispatch({ type: 'GET_ALL_CATEGORIES' })
 })
+
+const { string, object, func, array } = PropTypes
+
+Blog.propTypes = {
+    valueFilter: string.isRequired,
+    sortFilter: string.isRequired,
+    dataCategory: array.isRequired,
+    classes: object,
+    getAllPosts: func.isRequired,
+    getAllCategories: func.isRequired
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Blog))

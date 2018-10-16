@@ -1,23 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import Grid from '@material-ui/core/Grid'
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import Slide from '@material-ui/core/Slide';
-import TextField from '@material-ui/core/TextField';
+import PropTypes from 'prop-types'
 
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+//Material UI
+//Structure
+import Grid from '@material-ui/core/Grid'
+
+//Items
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import CloseIcon from '@material-ui/icons/Close'
+import Slide from '@material-ui/core/Slide'
+
+//Form
+import TextField from '@material-ui/core/TextField'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+
+//Core
+import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
     root: {
@@ -57,7 +65,7 @@ const styles = theme => ({
 })
 
 function Transition(props) {
-  return <Slide direction="up" {...props} />;
+  return <Slide direction="up" {...props} />
 }
 
 class ModalCreatePost extends Component {
@@ -113,7 +121,7 @@ class ModalCreatePost extends Component {
     }
     
     render() {
-        const { classes, openModal, errorSave, dataCategory, txtTitle, cboCategory, txtPostText, error } = this.props;
+        const { classes, openModal, errorSave, dataCategory, txtTitle, cboCategory, txtPostText, error } = this.props
         const showError = error.length > 0 ? error : errorSave
 
         return (
@@ -187,10 +195,6 @@ class ModalCreatePost extends Component {
     }
 }
 
-ModalCreatePost.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
-
 const mapStateToProps = state => {
     const openModal = state.createPostModal.openModal
     const errorSave = state.createPostModal.error
@@ -227,4 +231,23 @@ const mapDispatchToProps = dispatch => ({
     changeDataEditPost: objData => dispatch({ type: 'EDIT_POST', payload: { ...objData }})
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ModalCreatePost));
+const { object, func, bool, array, string } = PropTypes
+
+ModalCreatePost.propTypes = {
+    authorLogged: string,
+    errorSave: string,
+    dataCategory: array,
+    txtTitle: string.isRequired,
+    cboCategory: string.isRequired,  
+    txtPostText: string.isRequired, 
+    error: string,
+    id: string,
+    classes: object,
+    openModal: bool.isRequired,
+    closeModal: func.isRequired,
+    savePost: func.isRequired,
+    getInitialData: func.isRequired,
+    changeDataEditPost: func.isRequired
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ModalCreatePost))

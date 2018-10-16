@@ -143,6 +143,16 @@ class Login extends Component {
     }
 }
 
+const mapStateToProps = ({ login }) => ({
+    login
+})
+
+const mapDispatchToProps = dispatch => ({
+    verifyIsLogged: _ => dispatch({ type: 'IS_LOGGED' }),
+    loginUser: (author, rememberMe) => dispatch({ type: 'LOGIN_USER', payload: { author, rememberMe }}),
+    errorLoginFail: error => dispatch({ type: 'LOGIN_FAIL', payload: { error }})
+})
+
 const { string, func, object, bool, shape } = PropTypes
 
 Login.propTypes = {
@@ -155,15 +165,5 @@ Login.propTypes = {
     verifyIsLogged: func.isRequired,
     errorLoginFail: func.isRequired,
 }
-
-const mapStateToProps = ({ login }) => ({
-    login
-})
-
-const mapDispatchToProps = dispatch => ({
-    verifyIsLogged: _ => dispatch({ type: 'IS_LOGGED' }),
-    loginUser: (author, rememberMe) => dispatch({ type: 'LOGIN_USER', payload: { author, rememberMe }}),
-    errorLoginFail: error => dispatch({ type: 'LOGIN_FAIL', payload: { error }})
-})
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login))

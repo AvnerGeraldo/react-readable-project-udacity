@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 //Material UI
 //Structure
@@ -40,7 +41,7 @@ class BoxPostDetail extends Component {
     }
 
     render() {
-        const { classes, match: { params: { id } }, getPostDataById, viewDataPost } = this.props
+        const { classes, match: { params: { id } }, getPostDataById } = this.props
 
         return (
             <React.Fragment>
@@ -80,5 +81,18 @@ const mapDispatchToProps = dispatch => ({
     getPostDataById: id => dispatch({ type: 'GET_POST_BY_ID', payload: { id }}),
     getAllCategories: _=> dispatch({ type: 'GET_ALL_CATEGORIES' }),
 })
+
+const { object, func, shape, string } = PropTypes
+
+BoxPostDetail.propTypes = {
+    classes: object,
+    match: shape({ 
+        params: shape({ 
+            id: string.isRequired 
+        }) 
+    }),
+    getPostDataById:func.isRequired,
+    getAllCategories: func.isRequired
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BoxPostDetail))

@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 //Material UI
 //Structure
@@ -90,5 +91,18 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     openModal: _=> dispatch({ type: 'OPEN_MODAL_CREATE_POST' })
 })
+
+const { string, array, func, object, shape } = PropTypes
+
+BoxSideBar.propTypes = {
+    dataCategory: array,
+    openModal: func.isRequired,
+    classes: object, 
+    match: shape({
+        params: shape({
+            category: string
+        })
+    })
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(BoxSideBar)))

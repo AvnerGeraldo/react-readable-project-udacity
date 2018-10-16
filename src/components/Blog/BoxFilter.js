@@ -99,15 +99,6 @@ class BoxFilter extends Component {
     }
 }
 
-const { string, object, func } = PropTypes
-
-BoxFilter.propTypes = {
-    classes: object,
-    filteringData: func.isRequired,
-    valueFilter: string.isRequired,
-    sortFilter: string.isRequired,
-}
-
 const mapStateToProps = state => ({
     valueFilter: state.filters.valueFilter,
     sortFilter: state.filters.sortFilter,
@@ -143,5 +134,21 @@ const mapDispatchToProps = dispatch => ({
     }),
     getFilters: _ => dispatch({ type: 'GET_FILTERS' })
 })
+
+const { string, object, func, shape } = PropTypes
+
+BoxFilter.propTypes = {
+    classes: object,    
+    valueFilter: string.isRequired,
+    sortFilter: string.isRequired,
+    filteringData: func.isRequired,
+    changeFilter: func.isRequired,
+    getFilters:func.isRequired,
+    match: shape({
+        params: shape({
+            category: string
+        })
+    })
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(BoxFilter)))

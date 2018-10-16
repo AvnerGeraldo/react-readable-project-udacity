@@ -1,6 +1,6 @@
-import React, { Component, createRef } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
+import PropTypes from 'prop-types'
 
 //Material UI
 //Structure
@@ -50,6 +50,7 @@ const styles = theme => ({
         right: theme.spacing.unit * -0.1,
     },
 })
+
 class BoxComment extends Component {
     state = {
         body: '',
@@ -139,5 +140,17 @@ const mapDispatchToProps = dispatch => ({
         payload: { idPost, idComment, body, author }
     })
 })
+
+const { string, object, func } = PropTypes
+
+BoxComment.propTypes = {
+    idPost: string.isRequired, 
+    classes: object, 
+    authorLogged: string.isRequired, 
+    id: string, 
+    getPostDataById: func.isRequired, 
+    getPostComments: func.isRequired, 
+    handleComment: func.isRequired
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BoxComment))

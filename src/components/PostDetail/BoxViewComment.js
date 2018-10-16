@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 //Material UI
 //Structure
@@ -68,7 +69,7 @@ const styles = theme => ({
 
 class BoxViewComment extends Component {
     state = {
-        dataComment: [],
+        dataComment: {},
     }
 
     componentWillMount() {
@@ -151,7 +152,7 @@ class BoxViewComment extends Component {
                         )
                     }
                     
-                    return
+                    return null
                 })}
                 <BoxComment idPost={this.props.idPost} {...this.state.dataComment} />
             </Grid>   
@@ -185,5 +186,18 @@ const mapDispatchToProps = dispatch => ({
         payload: { id }
     }),
 })
+
+const { func, object, string, array } = PropTypes
+
+BoxViewComment.propTypes = {
+    classes: object,
+    dataPost: object,
+    data: array,
+    error: string, 
+    getPostDataById: func.isRequired,
+    getPostComments: func.isRequired,
+    changeVote: func.isRequired,
+    deleteComment: func.isRequired
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BoxViewComment))

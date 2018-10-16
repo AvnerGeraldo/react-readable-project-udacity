@@ -76,15 +76,6 @@ class Header extends Component {
     }
 }
 
-const { func, string, object } = PropTypes
-
-Header.propTypes = {
-    author: string.isRequired,
-    verifyIsLogged: func.isRequired,
-    logout: func.isRequired,
-    classes: object
-}
-
 const mapStateToProps = state => {
     const { login } = state
 
@@ -97,5 +88,14 @@ const mapDispatchToProps = dispatch => ({
     verifyIsLogged: _ => dispatch({ type: 'IS_LOGGED' }),
     logout: _ => dispatch({ type: 'LOGOUT' })
 })
+
+const { func, string, object } = PropTypes
+
+Header.propTypes = {
+    author: string.isRequired,
+    verifyIsLogged: func.isRequired,
+    logout: func.isRequired,
+    classes: object
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Header))

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 //Material UI
 //Structure
@@ -160,5 +161,27 @@ const mapDispatchToProps = dispatch => ({
     changeDataEditPost: objData => dispatch({ type: 'EDIT_POST', payload: { ...objData }}),
     openModal: _=> dispatch({ type: 'OPEN_MODAL_CREATE_POST' }),
 })
+
+const { string, func, object, number } = PropTypes
+
+BoxPost.propTypes = {
+    classes: object,
+    id: string.isRequired,
+    title: string.isRequired,
+    textToShow: string.isRequired, 
+    author: string.isRequired, 
+    numComments: number.isRequired, 
+    numVotes: number.isRequired, 
+    categoryPost: string.isRequired, 
+    timestampPost: number.isRequired, 
+    valueFilter: string.isRequired, 
+    sortFilter:  string.isRequired,
+    authorLogged: string,
+    openModal: func.isRequired,
+    changeDataEditPost: func.isRequired,
+    getAllPosts: func.isRequired,
+    changeVote: func.isRequired,
+    deletePost: func.isRequired,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BoxPost))

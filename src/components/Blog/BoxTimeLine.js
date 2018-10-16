@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 //Material UI
 //Structure
@@ -66,6 +67,14 @@ const mapStateToProps = state => {
         dataPost,
         loadingData,
     }
+}
+
+const { array, bool, object } = PropTypes
+
+BoxPost.propTypes = {
+    dataPost: array,
+    loadingData: bool,
+    classes: object,
 }
 
 export default connect(mapStateToProps)(withStyles(styles)(BoxPosts))

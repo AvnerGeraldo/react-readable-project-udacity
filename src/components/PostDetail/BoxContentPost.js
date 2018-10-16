@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 //Material UI
 //Structure
@@ -196,5 +197,29 @@ const mapDispatchToProps = dispatch => ({
     changeDataEditPost: objData => dispatch({ type: 'EDIT_POST', payload: { ...objData }}),
     openModal: _=> dispatch({ type: 'OPEN_MODAL_CREATE_POST' }),
 })
+
+const { string, func, bool, object, shape, number } = PropTypes
+
+BoxContentPost.propTypes = {
+    dataPost: shape({
+        id: string,
+        timestamp: number,
+        title: string,
+        body: string,
+        author: string,
+        category: string,
+        voteScore: number,
+        commentCount: number
+    }),
+    loadingData: bool,
+    authorLogged: string.isRequired,
+    errorPost: string,
+    classes: object,
+    openModal: func.isRequired,
+    changeDataEditPost: func.isRequired,
+    changeVote: func.isRequired,
+    deletePost: func.isRequired,
+    getPostDataById: func.isRequired
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BoxContentPost))
