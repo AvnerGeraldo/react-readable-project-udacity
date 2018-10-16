@@ -26,9 +26,14 @@ const styles = theme => ({
 const BoxPosts = (props) => {
     const { classes, dataPost, loadingData } = props
     const textToShow = loadingData === true ? 'No results' : 'Loading data...'
-    const showInfoBox = (dataPost.length === 0 || !dataPost.data || 
-        dataPost.length > 0 && dataPost.data.length >= 0 && dataPost.error ||
-        dataPost.data && dataPost.data.length === 0)
+    let showInfoBox = false
+
+    if(
+        (Object.keys(dataPost).length > 0 && Object.keys(dataPost.data).length >= 0 && dataPost.error) ||
+        (Object.keys(dataPost).length > 0 && Object.keys(dataPost.data).length === 0)
+    ) {
+        showInfoBox = true
+    }
         
     return (
         <Grid item sm={7} xs={12}>            
