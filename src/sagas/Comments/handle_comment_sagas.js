@@ -4,7 +4,7 @@ import { token, urlServer } from '../../helpers/helpFetch'
 
 function* handleComentInsertUpdate({ payload }) {
     const { idPost, idComment, body, author } = payload
-    const timestamp = parseInt(moment().format('x'))
+    const timestamp = parseInt(moment().format('x'), 10)
     
     if (idComment) {
         yield sendRequestUpdate(idComment, timestamp, body)

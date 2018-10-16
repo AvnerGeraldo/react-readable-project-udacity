@@ -114,7 +114,7 @@ class BoxContentPost extends Component {
 
         const dateTimePost = moment(timestamp)
         const showDateTime = `${dateTimePost.format('MMMM, D')} of ${dateTimePost.format('YYYY')} at ${dateTimePost.format('HH:mm:ss')} hs`
-        const textNumComments =  `${commentCount}${(parseInt(commentCount) > 1000 ? 'k' : '')} comments`
+        const textNumComments =  `${commentCount}${(parseInt(commentCount, 10) > 1000 ? 'k' : '')} comments`
 
         return (
             <Grid item sm={10} xs={12} className={classes.root}>        

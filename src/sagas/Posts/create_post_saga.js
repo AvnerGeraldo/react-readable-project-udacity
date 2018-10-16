@@ -31,7 +31,7 @@ function* sendRequest(author, title, category, postText, id = '') {
             body: postText,
         }
     } else {
-        const timestamp = parseInt(moment().format('x'))
+        const timestamp = parseInt(moment().format('x'), 10)
         body = {
             id: btoa(`${timestamp}${author}${category}`),
             timestamp,
